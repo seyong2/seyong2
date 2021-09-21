@@ -1,16 +1,20 @@
 ---
 layout: page
 title: About me
-subtitle: Why you'd want to go on a date with me
+subtitle: What can you expect from this page
 ---
 
-My name is Inigo Montoya. I have the following qualities:
+My name is Seyong Ryoo. I am studying a master's degree in Statistics and Data Science at KU Leuven.
 
-- I rock a great mustache
-- I'm extremely loyal to my family
+### Where have I been so far?
+- I was born in Korea (South, not North) and went to Spain to study bachelor's degree when I was 18 years old.
+- I finished my bachelor's degree and went to Belgium to study master's degree.
+- Due to COVID-19, non-face-to-face classes are possible, so I decided to end the last year in Korea.
 
-What else do you need?
+### Should I say they are hobbies?
+- I like to read novels, especially classical novels. 
+- I also like to go to a cafe on a good day and have coffee and sweet desserts.
+- I'm not good at it, but I'm practicing the piano every day.
+- I like to work out, so I'm planning to take a swimming class.
 
-### My story
-
-To be honest, I'm having some trouble remembering right now, so why don't you just watch [my movie](https://en.wikipedia.org/wiki/The_Princess_Bride_%28film%29) and it will answer **all** your questions.
+If you want to know more about my career, qualifications, and education, please click [here].

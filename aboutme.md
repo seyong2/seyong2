@@ -1,7 +1,7 @@
 ---
 layout: page
 title: About me
-subtitle: What can you expect from this page
+# subtitle: What can you expect from this page
 ---
 
 My name is Seyong Ryoo. I am studying a master's degree in Statistics and Data Science at KU Leuven.

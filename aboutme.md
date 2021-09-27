@@ -17,5 +17,5 @@ My name is Seyong Ryoo. I am studying a master's degree in Statistics and Data S
 - I'm not good at it, but I'm practicing the piano every day.
 - I like to work out, so I'm planning to take a swimming class.
 
-### What if you want to know more about me?
+### What if you want to know more about me?  
 Please click [here]({{seyong2.github.io}}/assets/cv.pdf) to check out my CV!

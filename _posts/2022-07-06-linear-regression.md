@@ -1,14 +1,28 @@
 ---
 layout: post
-title: Sample blog post
-subtitle: Each post also has a subtitle
+title: Predict Weight of Fish Species 
+subtitle: Using Linear Regression in Python
 gh-repo: daattali/beautiful-jekyll
 gh-badge: [star, fork, follow]
 tags: [test]
 comments: true
 ---
 
-This is a demo post to show you how to write blog posts with markdown.  I strongly encourage you to [take 5 minutes to learn how to write in markdown](https://markdowntutorial.com/) - it'll teach you how to transform regular text into bold/italics/headings/tables/etc.
+In this post, I try to give you a breif summary of a linear regression model based on the book [**The Elements of Statistical Learning**](https://link.springer.com/book/10.1007/978-0-387-84858-7). While I walk you through the concepts, I also provide a demonstration using data from [Kaggle](https://www.kaggle.com/datasets/aungpyaeap/fish-market?resource=download) about common fish species in fish market. Then, the goal is to estimate the weight of seven common different fish species using a linear regression model. 
+
+# Python libraries and Data
+
+We load necessary Python libraries and the data for the post.
+
+```
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+from sklearn.preprocessing import OneHotEncoder
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LinearRegression
+```
 
 **Here is some bold text**
 

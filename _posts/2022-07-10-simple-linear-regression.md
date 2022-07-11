@@ -24,7 +24,7 @@ from sklearn.linear_model import LinearRegression
 df = pd.read_csv('fish.csv')
 df.head()
 ```
-![df_head](https://github.com/seyong2/seyong2.github.io/blob/master/assets/img/df_head.png)
+![df_head](https://github.com/seyong2/seyong2.github.io/blob/master/_posts/figures/df_head.png)
 
 The data include 7 traits for 159 fish in the market. The description of the columns are as follows:
 
@@ -40,7 +40,7 @@ We use a scatterplot to represent the relationship between the weight and height
 ```
 sns.scatterplot(x=df.loc[:, 'Height'], y=df.loc[:, 'Weight'], hue=df.loc[:, 'Species'])
 ```
-![scatter_fish](https://github.com/seyong2/seyong2.github.io/blob/master/assets/img/scatter_fish.png)
+![scatter_fish](https://github.com/seyong2/seyong2.github.io/blob/master/_posts/figures/scatter_fish.png)
 
 The figure above shows that there is a positive relationship between the height and weight of all fish species. We are only interested in a species called Bream, so we slice the data.
 
@@ -50,17 +50,20 @@ x = df_bream.loc[:, 'Height']
 y = df_bream.loc[:, 'Weight']
 sns.scatterplot(x=x, y=y)
 ```
-![scatter_bream](https://github.com/seyong2/seyong2.github.io/blob/master/assets/img/scatter_bream.png)
+![scatter_bream](https://github.com/seyong2/seyong2.github.io/blob/master/_posts/figures/scatter_bream.png)
 
-We would like to add a line to the data to see the trend. But, what is the best line?
-A horizontal line that cuts through the average weight is likely to be the worst line that one can have. However, this gives us an idea about finding the optimal line.
+It seems that we can add a line to the data to see the trend. But, how can we draw the line that best describes the data? First, a horizontal line is drawn that cuts through the average weight. It is likely that this is the the worst line that one can have. However, we can get an idea about finding the optimal line.
 
 ```
 scatter = sns.scatterplot(x=x, y=y)
 scatter.axhline(y.mean(), color='r')
 plt.show()
 ```
-We can measure how well this horizontal line fits the data by calculating the total distance between the line and the data points. However, when the data point is greater than the line, the distance is negative, which makes the overall fit appear better than it really is. Thus, we square every distance and sum them up. It is called sum of squared residuals.
+
+![scatter_bream_horizontal](https://github.com/seyong2/seyong2.github.io/blob/master/_posts/figures/scatter_bream_horizontal.png)
+
+
+We can measure how well this horizontal line fits the data by calculating the total distance between the line and the data points. However, when the data point is above the line, the distance is negative, which makes the overall fit appear better than it really is. Thus, we compute sum of squared residuals (SSR) by squaring the distances and summing them up.
 
 ```
 def SSR(y, y_hat):
@@ -72,6 +75,7 @@ def SSR(y, y_hat):
 SSR(y, [y.mean()]*len(y))
 ```
 
+The SSR for the horizontal line is 1488078.9714285715. 
 By rotating the line, we can obtain a line (intercept and slope) whose sum of squared residuals is the smallest. However, if we rotate too much, the fit gets worse again so we need to find the sweet spot in-between. At the sweet spot, the function SSR will have no slope.
 
 ```

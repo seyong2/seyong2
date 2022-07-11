@@ -8,11 +8,11 @@ tags: [test]
 comments: true
 ---
 
-In this post, we are going to estimate the weight of a fish species, Bream, using their height via a simple linear regression model. The description of the data set used here can be found in [Kaggle](https://www.kaggle.com/datasets/aungpyaeap/fish-market?resource=download).
+In this post, we want to estimate the weight of a species of fish called bream. This is done through a simple linear regression model using their height. A more detailed description of the data can be found on [Kaggle](https://www.kaggle.com/datasets/aungpyaeap/fish-market?resource=download).
 
-# Python libraries and Data
+# Import Libraries and Data
 
-We start by loading necessary Python libraries and the data for the post.
+We start by loading the necessary libraries and data.
 
 ```
 import pandas as pd
@@ -24,8 +24,7 @@ from sklearn.linear_model import LinearRegression
 df = pd.read_csv('fish.csv')
 df.head()
 ```
-
-The data has 7 characteristics of 159 fishes in the market. The description of the columns are as follows:
+The data include 7 traits for 159 fish in the market. The description of the columns are as follows:
 
 - *Species*: species name of fish
 - *Weight*: weight of fish in g

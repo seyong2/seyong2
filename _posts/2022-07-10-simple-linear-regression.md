@@ -24,6 +24,7 @@ from sklearn.linear_model import LinearRegression
 df = pd.read_csv('fish.csv')
 df.head()
 ```
+![df_head](https://github.com/seyong2/seyong2.github.io/blob/master/assets/img/df_head.png)
 The data include 7 traits for 159 fish in the market. The description of the columns are as follows:
 
 - *Species*: species name of fish

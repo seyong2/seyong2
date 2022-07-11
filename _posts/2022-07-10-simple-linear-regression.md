@@ -25,6 +25,7 @@ df = pd.read_csv('fish.csv')
 df.head()
 ```
 ![df_head](https://github.com/seyong2/seyong2.github.io/blob/master/assets/img/df_head.png)
+
 The data include 7 traits for 159 fish in the market. The description of the columns are as follows:
 
 - *Species*: species name of fish
@@ -35,9 +36,11 @@ The data include 7 traits for 159 fish in the market. The description of the col
 - *Height*: height in cm
 - *Width*: diagonal width in cm
 
+We use a scatterplot to represent the relationship between the weight and height of the fish.
 ```
 sns.scatterplot(x=df.loc[:, 'Height'], y=df.loc[:, 'Weight'], hue=df.loc[:, 'Species'])
 ```
+![scatter_fish](https://github.com/seyong2/seyong2.github.io/blob/master/assets/img/scatter_fish.pdf)
 
 As said earlier, since we are only interested in the species, Bream, we slice the data.
 

@@ -40,7 +40,7 @@ We use a scatterplot to represent the relationship between the weight and height
 ```
 sns.scatterplot(x=df.loc[:, 'Height'], y=df.loc[:, 'Weight'], hue=df.loc[:, 'Species'])
 ```
-![scatter_fish](https://github.com/seyong2/seyong2.github.io/blob/master/assets/img/scatter_fish.pdf)
+![scatter_fish](https://github.com/seyong2/seyong2.github.io/blob/master/assets/img/scatter_fish.png)
 
 As said earlier, since we are only interested in the species, Bream, we slice the data.
 

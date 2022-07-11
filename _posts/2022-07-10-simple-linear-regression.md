@@ -42,7 +42,7 @@ sns.scatterplot(x=df.loc[:, 'Height'], y=df.loc[:, 'Weight'], hue=df.loc[:, 'Spe
 ```
 ![scatter_fish](https://github.com/seyong2/seyong2.github.io/blob/master/assets/img/scatter_fish.png)
 
-As said earlier, since we are only interested in the species, Bream, we slice the data.
+The figure above shows that there is a positive relationship between the height and weight of all fish species. We are only interested in a species called Bream, so we slice the data.
 
 ```
 df_bream = df[df.loc[:, 'Species'] == 'Bream']
@@ -50,6 +50,7 @@ x = df_bream.loc[:, 'Height']
 y = df_bream.loc[:, 'Weight']
 sns.scatterplot(x=x, y=y)
 ```
+![scatter_bream](https://github.com/seyong2/seyong2.github.io/blob/master/assets/img/scatter_bream.png)
 
 We would like to add a line to the data to see the trend. But, what is the best line?
 A horizontal line that cuts through the average weight is likely to be the worst line that one can have. However, this gives us an idea about finding the optimal line.

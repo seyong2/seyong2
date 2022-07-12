@@ -10,8 +10,6 @@ comments: true
 
 In this post, we want to estimate the weight of a species of fish called bream. This is done through a simple linear regression model using their height. A more detailed description of the data can be found on [Kaggle](https://www.kaggle.com/datasets/aungpyaeap/fish-market?resource=download).
 
-# Import Libraries and Data
-
 We start by loading the necessary libraries and data.
 
 ```
@@ -37,13 +35,14 @@ The data include 7 traits for 159 fish in the market. The description of the col
 - *Height*: height in cm
 - *Width*: diagonal width in cm
 
-We use a scatterplot to represent the relationship between the weight and height of the fish.
+We use a scatterplot to investigate the relationship between the weight and height of the fish.
+
 ```
 sns.scatterplot(x=df.loc[:, 'Height'], y=df.loc[:, 'Weight'], hue=df.loc[:, 'Species'])
 ```
 ![scatter_fish](https://github.com/seyong2/seyong2.github.io/blob/master/assets/img/figures_simple_linear_regression/scatter_fish.png?raw=true)
 
-The figure above shows that there is a positive relationship between the height and weight of all fish species. We are only interested in a species called Bream, so we slice the data.
+The figure above shows that there is a positive relationship between the height and weight of all fish species. Since we are only interested in a species called bream, we slice the data.
 
 ```
 df_bream = df[df.loc[:, 'Species'] == 'Bream']
@@ -51,9 +50,10 @@ x = df_bream.loc[:, 'Height']
 y = df_bream.loc[:, 'Weight']
 sns.scatterplot(x=x, y=y)
 ```
+
 ![scatter_bream](https://github.com/seyong2/seyong2.github.io/blob/master/assets/img/figures_simple_linear_regression/scatter_bream.png?raw=true)
 
-It seems that we can add a line to the data to see the trend. But, how can we draw the line that best describes the data? First, a horizontal line is drawn that cuts through the average weight. It is likely that this is the the worst line that one can have. However, we can get an idea about finding the optimal line.
+It seems that we can add a line to the data specific to the bream. But, how can we draw the line that best describes the data? To get an idea, a horizontal line is drawn that cuts through the average weight and this is obviously the worst line one can have. 
 
 ```
 scatter = sns.scatterplot(x=x, y=y)
@@ -64,7 +64,7 @@ plt.show()
 ![scatter_bream_horizontal](https://github.com/seyong2/seyong2.github.io/blob/master/assets/img/figures_simple_linear_regression/scatter_bream_horizontal.png?raw=true)
 
 
-We can measure how well this horizontal line fits the data by calculating the total distance between the line and the data points. However, when the data point is above the line, the distance is negative, which makes the overall fit appear better than it really is. Thus, we compute sum of squared residuals (SSR) by squaring the distances and summing them up.
+We can measure how well this horizontal line fits the data by calculating the total distance between the line and the data points. However, data points above the mean line have negative distances, which make the overall fit to appear better than it really is. Therefore, the residual sum of squares (SSR) is calculated by squaring and summing the distances.
 
 ```
 def SSR(y, y_hat):
@@ -76,7 +76,7 @@ def SSR(y, y_hat):
 SSR(y, [y.mean()]*len(y))
 ```
 
-The resulting SSR for the horizontal line is 1488078.9714285715. Then, by rotating the line, we can obtain a line (intercept and slope) whose SSR is the smallest. However, if we rotate too much, the fit gets worse again so we need to find the sweet spot in-between at which the function SSR has no slope. The figure below shows the line that fits best the data. The optimal line has an intercept of -941.559004487088, meaning that a fish whose height is zero weighs approximately -942g. This does not make sense in practice so we have to be aware of extrapolation. The slope is equal to 102.70472642, that is, a unit increase in the height leads to an increase of 103g in the weight.
+The resulting SSR for the horizontal line is around 1,488,078.97, which looks quite large. But if we rotate the line we can get the line with smaller SSR although if you rotate too much the SSR will grow again. As a result, we need to find a sweet spot in-between at which the SSR has no slope. This is what the least squares method does to estimate the optimal line. The following figure shows such a line and it best describes the data. The intercept of the optimal line is approximately -941.56, which means that a zero-height fish weighs that much. This does not make sense in practice so we have to be aware of extrapolation. The optimal slope is equal to about 102.70. That is, an increase in height by one unit increases the weight by 103 g.
 
 ```
 reg = LinearRegression()
@@ -92,7 +92,7 @@ plt.show()
 ```
 SSR(y, y_hat)
 ```
-We see that the SSR of the fitted line with the least squares estimates is 103699.20790298669 so it fits much better than the horizontal line. How much does better the fitted line does its job than the mean line? The difference can be quantified by means of $R^2=\frac{Var(mean)-Var(line)}{Var(mean)}$. The metric can take a value between 0 and 1, 0 meaning that height does not help explaining the variation in weight and 1, meaning that the line has the perfect fit. 
+The fitted line with the least squares estimates has an SSR of 103,699.21, so it fits much better than the horizontal line. How well does the fitted line work better than the mean line? This question can be answered by means of $R^2=\frac{Var(mean)-Var(line)}{Var(mean)}$. The metric takes a value between 0 and 1. 0 means that height does not help explain weight changes, and 1 means the opposite.
 
 ```
 def R2(SSR_mean, SSR_line):
@@ -101,7 +101,7 @@ def R2(SSR_mean, SSR_line):
 R2(SSR(y, [y.mean()]*len(y)), SSR(y, y_hat))
 ```
 
-The $R^2$ value here is equal to 0.9303133705307088 and this indicates that the relationship between the height and weight accounts for almost 93% of the total variation. But, is this value statistically significant? To determine whether or not it is significant, we need to compute a $p$-value for $F$-statistic defined as $\frac{SS(mean)-SS(fit)/(p_{fit}-p_{mean})}{SS(fit)/(n-p_{fit})}$ where where $n$ is the size of the data, $p_{fit}$ is the number of parameters in the fit line and $p_{mean}$ is the number of parameters in the mean line. The numerator, then, is the variation in fish weight explained by height and the denominator is the variation left to be explained. Thus, a really large value of $F$ indicates that the fit of the line is good. For the $p$-value, we calculate the probability of obtaining $F$ statistics at least as extreme as the observed statistic using $F$-distribution.
+Here, the value of $R^2$ is 0.93, indicating that the relationship between height and weight accounts for nearly 93% of the total variance. But is this value statistically significant? To determine whether or not it is significant, we need to compute the $p$-value for the $F$-statistic defined as $$\frac{SS(mean)-SS(fit)/(p_{fit}-p_{mean})}{SS(fit)/(n-p_{fit})}$$ where where $n$ is the size of the data, $p_{fit}$ is the number of parameters in the fitted line and $p_{mean}$ is the number of parameters in the mean line. The numerator, then, is the variance of fish weight explained by the height and the denominator is the amount of variation that remains unexplained. So, really large values of the $F$ statistic indicate a good fit of the line. For the $p$-value, we use the $F$-distribution to calculate the probability of obtaining an $F$ statistic at least as extreme as the observed statistic.
 
 ```
 def F_stat(SSR_mean, SSR_fit, n, p_fit, p_mean):
@@ -113,4 +113,4 @@ p_val = 1-f.cdf(F, 2-1, x.shape[0]-2)
 p_val
 ```
 
-The $p$-value is 1.1102230246251565e-16, which is much smaller than the significance level, 0.05. Therefore, we conclude that $R^2$ is significant and that the fish height explains much of the variation in weight.
+In this example, the $p$-value is very close to 0, which is much less than the significance level of 0.05. Consequently, we conclude that $R^2$ is significant and that the height of the fish explains much of the variation in weight.

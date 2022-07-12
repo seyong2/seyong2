@@ -20,11 +20,12 @@ import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 from sklearn.linear_model import LinearRegression
+from scipy.stats import f
 
 df = pd.read_csv('fish.csv')
 df.head()
 ```
-![df_head](https://github.com/seyong2/seyong2.github.io/blob/master/_posts/figures/df_head.png?raw=true)
+![df_head](https://github.com/seyong2/seyong2.github.io/blob/master/assets/img/figures_simple_linear_regression/df_head.png?raw=true)
 
 The data include 7 traits for 159 fish in the market. The description of the columns are as follows:
 
@@ -40,7 +41,7 @@ We use a scatterplot to represent the relationship between the weight and height
 ```
 sns.scatterplot(x=df.loc[:, 'Height'], y=df.loc[:, 'Weight'], hue=df.loc[:, 'Species'])
 ```
-![scatter_fish](https://github.com/seyong2/seyong2.github.io/blob/master/_posts/figures/scatter_bream.png?raw=true)
+![scatter_fish](https://github.com/seyong2/seyong2.github.io/blob/master/assets/img/figures_simple_linear_regression/scatter_fish.png?raw=true)
 
 The figure above shows that there is a positive relationship between the height and weight of all fish species. We are only interested in a species called Bream, so we slice the data.
 
@@ -50,7 +51,7 @@ x = df_bream.loc[:, 'Height']
 y = df_bream.loc[:, 'Weight']
 sns.scatterplot(x=x, y=y)
 ```
-![scatter_bream](https://github.com/seyong2/seyong2.github.io/blob/master/_posts/figures/scatter_bream_best.png?raw=true)
+![scatter_bream](https://github.com/seyong2/seyong2.github.io/blob/master/assets/img/figures_simple_linear_regression/scatter_bream.png?raw=true)
 
 It seems that we can add a line to the data to see the trend. But, how can we draw the line that best describes the data? First, a horizontal line is drawn that cuts through the average weight. It is likely that this is the the worst line that one can have. However, we can get an idea about finding the optimal line.
 
@@ -60,7 +61,7 @@ scatter.axhline(y.mean(), color='r')
 plt.show()
 ```
 
-![scatter_bream_horizontal](https://github.com/seyong2/seyong2.github.io/blob/master/_posts/figures/scatter_bream_horizontal.png)
+![scatter_bream_horizontal](https://github.com/seyong2/seyong2.github.io/blob/master/assets/img/figures_simple_linear_regression/scatter_bream_horizontal.png?raw=true)
 
 
 We can measure how well this horizontal line fits the data by calculating the total distance between the line and the data points. However, when the data point is above the line, the distance is negative, which makes the overall fit appear better than it really is. Thus, we compute sum of squared residuals (SSR) by squaring the distances and summing them up.
@@ -86,7 +87,7 @@ sns.lineplot(x=x, y=y_hat, color='r')
 plt.show()
 ```
 
-![scatter_bream_best](https://github.com/seyong2/seyong2.github.io/blob/master/_posts/figures/scatter_bream_best.png)
+![scatter_bream_best](https://github.com/seyong2/seyong2.github.io/blob/master/assets/img/figures_simple_linear_regression/scatter_bream_best.png?raw=true)
 
 ```
 SSR(y, y_hat)

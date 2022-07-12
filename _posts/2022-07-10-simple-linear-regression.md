@@ -75,8 +75,7 @@ def SSR(y, y_hat):
 SSR(y, [y.mean()]*len(y))
 ```
 
-The SSR for the horizontal line is 1488078.9714285715. 
-By rotating the line, we can obtain a line (intercept and slope) whose sum of squared residuals is the smallest. However, if we rotate too much, the fit gets worse again so we need to find the sweet spot in-between. At the sweet spot, the function SSR will have no slope.
+The resulting SSR for the horizontal line is 1488078.9714285715. Then, by rotating the line, we can obtain a line (intercept and slope) whose SSR is the smallest. However, if we rotate too much, the fit gets worse again so we need to find the sweet spot in-between at which the function SSR has no slope. The figure below shows the line that fits best the data. The optimal line has an intercept of -941.559004487088, meaning that a fish whose height is zero weighs approximately -942g. This does not make sense in practice so we have to be aware of extrapolation. The slope is equal to 102.70472642, that is, a unit increase in the height leads to an increase of 103g in the weight.
 
 ```
 reg = LinearRegression()
@@ -87,7 +86,9 @@ sns.lineplot(x=x, y=y_hat, color='r')
 plt.show()
 ```
 
+![scatter_bream_best](https://github.com/seyong2/seyong2.github.io/blob/master/_posts/figures/scatter_bream_best.png)
+
 ```
 SSR(y, y_hat)
 ```
-We see that the new line with least squares estimates fit much better than the horizontal line equal to the average weight.
+We see that the new line with the least squares estimates fits much better than the horizontal line.

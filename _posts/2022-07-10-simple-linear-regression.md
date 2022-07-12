@@ -2,9 +2,9 @@
 layout: post
 title: Simple Linear Regression 
 subtitle: Predict Weight of Fish Species Using Height
-gh-repo: daattali/beautiful-jekyll
+gh-repo: seyong2
 gh-badge: [star, fork, follow]
-tags: [test]
+tags: [machine learning, simple linear regression]
 comments: true
 ---
 
@@ -24,7 +24,7 @@ from sklearn.linear_model import LinearRegression
 df = pd.read_csv('fish.csv')
 df.head()
 ```
-![df_head](https://github.com/seyong2/seyong2.github.io/blob/master/_posts/figures/df_head.png)
+![df_head](https://github.com/seyong2/seyong2.github.io/blob/master/_posts/figures/df_head.png?raw=true)
 
 The data include 7 traits for 159 fish in the market. The description of the columns are as follows:
 
@@ -40,7 +40,7 @@ We use a scatterplot to represent the relationship between the weight and height
 ```
 sns.scatterplot(x=df.loc[:, 'Height'], y=df.loc[:, 'Weight'], hue=df.loc[:, 'Species'])
 ```
-![scatter_fish](https://github.com/seyong2/seyong2.github.io/blob/master/_posts/figures/scatter_fish.png)
+![scatter_fish](https://github.com/seyong2/seyong2.github.io/blob/master/_posts/figures/scatter_bream.png?raw=true)
 
 The figure above shows that there is a positive relationship between the height and weight of all fish species. We are only interested in a species called Bream, so we slice the data.
 
@@ -50,7 +50,7 @@ x = df_bream.loc[:, 'Height']
 y = df_bream.loc[:, 'Weight']
 sns.scatterplot(x=x, y=y)
 ```
-![scatter_bream](https://github.com/seyong2/seyong2.github.io/blob/master/_posts/figures/scatter_bream.png)
+![scatter_bream](https://github.com/seyong2/seyong2.github.io/blob/master/_posts/figures/scatter_bream_best.png?raw=true)
 
 It seems that we can add a line to the data to see the trend. But, how can we draw the line that best describes the data? First, a horizontal line is drawn that cuts through the average weight. It is likely that this is the the worst line that one can have. However, we can get an idea about finding the optimal line.
 

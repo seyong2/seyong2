@@ -91,4 +91,25 @@ plt.show()
 ```
 SSR(y, y_hat)
 ```
-We see that the new line with the least squares estimates fits much better than the horizontal line.
+We see that the SSR of the fitted line with the least squares estimates is 103699.20790298669 so it fits much better than the horizontal line. How much does better the fitted line does its job than the mean line? The difference can be quantified by means of $R^2=\frac{Var(mean)-Var(line)}{Var(mean)}$. The metric can take a value between 0 and 1, 0 meaning that height does not help explaining the variation in weight and 1, meaning that the line has the perfect fit. 
+
+```
+def R2(SSR_mean, SSR_line):
+    return (SSR_mean - SSR_line)/SSR_mean
+
+R2(SSR(y, [y.mean()]*len(y)), SSR(y, y_hat))
+```
+
+The $R^2$ value here is equal to 0.9303133705307088 and this indicates that the relationship between the height and weight accounts for almost 93% of the total variation. But, is this value statistically significant? To determine whether or not it is significant, we need to compute a $p$-value for $F$-statistic defined as $\frac{SS(mean)-SS(fit)/(p_{fit}-p_{mean})}{SS(fit)/(n-p_{fit})}$ where where $n$ is the size of the data, $p_{fit}$ is the number of parameters in the fit line and $p_{mean}$ is the number of parameters in the mean line. The numerator, then, is the variation in fish weight explained by height and the denominator is the variation left to be explained. Thus, a really large value of $F$ indicates that the fit of the line is good. For the $p$-value, we calculate the probability of obtaining $F$ statistics at least as extreme as the observed statistic using $F$-distribution.
+
+```
+def F_stat(SSR_mean, SSR_fit, n, p_fit, p_mean):
+    return ((SSR_mean-SSR_fit)/(p_fit-p_mean)) / ((SSR_fit)/(n-p_fit))
+
+F = F_stat(SSR(y, [y.mean()]*len(y)), SSR(y, y_hat), x.shape[0], 2, 1)
+
+p_val = 1-f.cdf(F, 2-1, x.shape[0]-2)
+p_val
+```
+
+The $p$-value is 1.1102230246251565e-16, which is much smaller than the significance level, 0.05. Therefore, we conclude that $R^2$ is significant and that the fish height explains much of the variation in weight.

@@ -16,6 +16,7 @@ As usual, we start by loading the necessary libraries and data.
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
+import seaborn as sns
 from sklearn.linear_model import LinearRegression
 from scipy.stats import f
 
@@ -24,7 +25,7 @@ df_bream = df.loc[df['Species']=='Bream', :]
 df_bream.head()
 print(df_bream.shape)
 ```
-![df_bream_head](https://github.com/seyong2/seyong2.github.io/blob/master/assets/img/figures_simple_linear_regression/df_head.png?raw=true)
+![df_bream_head](https://github.com/seyong2/seyong2.github.io/blob/master/assets/img/figures_multivariate_regression/df_bream_head.png?raw=true)
 
 The data include 7 traits for 35 bream fish. The description of the columns are as follows:
 
@@ -44,25 +45,27 @@ y = df_bream.iloc[:, 1]
 X_multiple.head()
 
 ```
-![X_multiple_head](https://github.com/seyong2/seyong2.github.io/blob/master/assets/img/figures_simple_linear_regression/scatter_fish.png?raw=true)
+![X_multiple_head](https://github.com/seyong2/seyong2.github.io/blob/master/assets/img/figures_multivariate_regression/X_multiple_head.png?raw=true)
 
 The least squares method is used to estimate parameters $\beta$=($\beta_0$,...,$\beta_5$) by minimizing sum of squared residuals (SSR). If the variables are useless for predicting the weight of the fish, that is, if they do not make the SSR any smaller, the method will make their slope set to zero. This implies that adding extra parameters can never result in worse SSR.
 
 ```
 reg_multiple = LinearRegression()
 reg_multiple.fit(X_multiple, y)
-```
 
-It seems that we can add a line to the data specific to the bream. But, how can we draw the line that best describes the data? To get an idea, a horizontal line is drawn that cuts through the average weight and this is obviously the worst line one can have. 
-
-```
 pd.DataFrame([reg_multiple.intercept_]+list(reg_multiple.coef_), index=['Intercept']+list(X_multiple.columns), columns=['beta_hat']).T
 ```
 
-![beta_hat]()
+![beta_hat](https://github.com/seyong2/seyong2.github.io/blob/master/assets/img/figures_multivariate_regression/beta_hat.png?raw=true)
 
-The parameter estimates are shown in the table above. Note that the least square estimate for $\beta_4$ is quite different from the one that we obtained using the simple linear regression. This is because $Height$ is correlated with the other variables, which 
-We can measure how well this horizontal line fits the data by calculating the total distance between the line and the data points. However, data points above the mean line have negative distances, which make the overall fit to appear better than it really is. Therefore, the residual sum of squares (SSR) is calculated by squaring and summing the distances.
+The parameter estimates are shown in the table above. Note that the least square estimate for $\beta_4$ is quite different from the one that we obtained using the simple linear regression. This is due to multicollinearity where the variables are correlated with each other, which can also be seen in the correlation matrix below. 
+
+```
+sns.heatmap(X_multiple.corr())
+```
+![corr_mat_tab](https://github.com/seyong2/seyong2.github.io/blob/master/assets/img/figures_multivariate_regression/corr_mat_tab.png?raw=true)
+
+![corr_mat](https://github.com/seyong2/seyong2.github.io/blob/master/assets/img/figures_multivariate_regression/corr_mat.png?raw=true)
 
 ```
 def SSR(y, y_hat):
@@ -71,44 +74,53 @@ def SSR(y, y_hat):
         err += (y[i] - y_hat[i])**2
     return err
 
-SSR(y, [y.mean()]*len(y))
-```
-
-The resulting SSR for the horizontal line is around 1,488,078.97, which looks quite large. But if we rotate the line we can get the line with smaller SSR although if you rotate too much the SSR will grow again. As a result, we need to find a sweet spot in-between at which the SSR has no slope. This is what the least squares method does to estimate the optimal line. The following figure shows such a line and it best describes the data. The intercept of the optimal line is approximately -941.56, which means that a zero-height fish weighs that much. This does not make sense in practice so we have to be aware of extrapolation. The optimal slope is equal to about 102.70. That is, an increase in height by one unit increases the weight by 103 g.
-
-```
-reg = LinearRegression()
-reg.fit(np.array(x).reshape((-1, 1)), y)
-y_hat = reg.intercept_ + reg.coef_*x
-sns.scatterplot(x=x, y=y)
-sns.lineplot(x=x, y=y_hat, color='r')
-plt.show()
-```
-
-![scatter_bream_best](https://github.com/seyong2/seyong2.github.io/blob/master/assets/img/figures_simple_linear_regression/scatter_bream_best.png?raw=true)
-
-```
-SSR(y, y_hat)
-```
-The fitted line with the least squares estimates has an SSR of 103,699.21, so it fits much better than the horizontal line. How well does the fitted line work better than the mean line? This question can be answered by means of $R^2=\frac{Var(mean)-Var(line)}{Var(mean)}$. The metric takes a value between 0 and 1. 0 means that height does not help explain weight changes, and 1 means the opposite.
-
-```
 def R2(SSR_mean, SSR_line):
     return (SSR_mean - SSR_line)/SSR_mean
-
-R2(SSR(y, [y.mean()]*len(y)), SSR(y, y_hat))
+    
+SSR_mean = SSR(y, [y.mean()]*len(y))
+SSR_multiple = SSR(y, reg_multiple.predict(X_multiple))
+R2(SSR_mean, SSR_multiple)
 ```
 
-Here, the value of $R^2$ is 0.93, indicating that the relationship between height and weight accounts for nearly 93% of the total variance. But is this value statistically significant? To determine whether or not it is significant, we need to compute the $p$-value for the $F$-statistic defined as $\frac{SS(mean)-SS(fit)/(p_{fit}-p_{mean})}{SS(fit)/(n-p_{fit})}$ where where $n$ is the size of the data, $p_{fit}$ is the number of parameters in the fitted line and $p_{mean}$ is the number of parameters in the mean line. The numerator, then, is the variance of fish weight explained by the height and the denominator is the amount of variation that remains unexplained. So, really large values of the $F$ statistic indicate a good fit of the line. For the $p$-value, we use the $F$-distribution to calculate the probability of obtaining an $F$ statistic at least as extreme as the observed statistic.
+To assess how well the hyperplane fits the data compared to the mean of fish weight, we compute $R^2$. It gives us 0.9432570487861149, meaning that almost 94% of total variation in the weight is expained by the variables. However, it happens sometimes that even if some predidctors are worthless, there are small probabilities that they contribute to predicting outcome variable due to random chance. This in turn leads to better $R^2$, which is not supposed to be. Consequently, we need to adjust the $R^2$ by the number of the variables considered in the model and $R^2_{adj}$ is defined as $1-\frac{SSR_{fit}/(n-p_{fit})}{SSR_{mean}/(n-1)}$.
+
+```
+def R2_adj(SSR_mean, SSR_fit, n, p_fit):
+    return 1-(SSR_fit/(n-p_fit-1))/(SSR_mean/(n-1))
+
+R2_adj(SSR_mean, SSR_multiple, len(y), X_multiple.shape[1])
+```
+
+Here, the value of $R^2_{adj}$ is 0.9334737813354451 and its difference with the unadjusted one is small. Now we test whether this value is signficiant or not through a $F$ test.
 
 ```
 def F_stat(SSR_mean, SSR_fit, n, p_fit, p_mean):
     return ((SSR_mean-SSR_fit)/(p_fit-p_mean)) / ((SSR_fit)/(n-p_fit))
 
-F = F_stat(SSR(y, [y.mean()]*len(y)), SSR(y, y_hat), x.shape[0], 2, 1)
+F = F_stat(SSR_mean, SSR_multiple, len(y), X_multiple.shape[1]+1, 1)
 
-p_val = 1-f.cdf(F, 2-1, x.shape[0]-2)
+p_fit = X_multiple.shape[1]+1
+p_mean = 1
+n = len(y)
+p_val = 1-f.cdf(F,p_fit-p_mean, n-p_fit)
 p_val
 ```
 
-In this example, the $p$-value is very close to 0, which is much less than the significance level of 0.05. Consequently, we conclude that $R^2$ is significant and that the height of the fish explains much of the variation in weight.
+In this example, the $p$-value is very close to 0 and is much smaller than the significance level of 0.05. Therefore, we conclude that the five variables explain much of the variation in weight. Until now, we have compared the multivariate regression to the mean but, we can also do the same with a simple linear regression. A comparison between fits with and without the additional variables will tell us if it worh including them in the model.
+
+```
+X_simple = X_multiple['Height']
+reg_simple = LinearRegression() 
+reg_simple.fit(np.array(X_simple).reshape((-1,1)), y)
+
+SSR_simple = SSR(y, reg_simple.predict(np.array(X_simple).reshape((-1,1))))
+
+F = F_stat(SSR_simple, SSR_multiple, len(y), X_multiple.shape[1]+1, 2)
+
+p_multiple = X_multiple.shape[1]+1
+p_simple = 2
+n = len(y)
+p_val = 1-f.cdf(F, p_multiple-p_simple, n-p_multiple)
+p_val
+```
+The resulting $p$-value is approximately 0.19, which leads us to a conclustion that we are good enough with the simple regression model.

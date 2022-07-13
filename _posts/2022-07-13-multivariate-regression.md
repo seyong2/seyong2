@@ -82,8 +82,7 @@ SSR_multiple = SSR(y, reg_multiple.predict(X_multiple))
 R2(SSR_mean, SSR_multiple)
 ```
 
-To assess how well the hyperplane fits the data compared to the mean of fish weight, we compute $R^2$. It gives us 0.9432570487861149, meaning that almost 94% of total variation in the weight is expained by the variables. However, it happens sometimes that even if some predidctors are worthless, there are small probabilities that they contribute to predicting outcome variable due to random chance. This in turn leads to better $R^2$, which is not supposed to be. Consequently, we need to adjust the $R^2$ by the number of the variables considered in the model and $R^2_{adj}$ is defined as 
-$1-\frac{SSR_{fit}/(n-p_{fit})}{SSR_{mean}/(n-1)}$.
+To assess how well the hyperplane fits the data compared to the mean of fish weight, we compute $R^2$. It gives us 0.9432570487861149, meaning that almost 94% of total variation in the weight is expained by the variables. However, it happens sometimes that even if some predidctors are worthless, there are small probabilities that they contribute to predicting outcome variable due to random chance. This in turn leads to better $R^2$, which is not supposed to be. Consequently, we need to adjust the $R^2$ by the number of the variables considered in the model and the new metric is defined as $R^2_{adj}=1-\frac{SSR_{fit}/(n-p_{fit})}{SSR_{mean}/(n-1)}$.
 
 ```
 def R2_adj(SSR_mean, SSR_fit, n, p_fit):

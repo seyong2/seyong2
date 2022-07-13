@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Simple Linear Regression 
-subtitle: Predict Weight of Fish Species Using Height
+subtitle: Predict Weight of Fish Species using Height
 gh-repo: seyong2
 gh-badge: [star, fork, follow]
 tags: [machine learning, simple linear regression]

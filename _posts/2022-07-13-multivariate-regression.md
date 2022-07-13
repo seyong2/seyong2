@@ -8,24 +8,25 @@ tags: [machine learning, simple linear regression]
 comments: true
 ---
 
-In this post, we want to estimate the weight of a species of fish called bream. This is done through a simple linear regression model using their height. A more detailed description of the data can be found on [Kaggle](https://www.kaggle.com/datasets/aungpyaeap/fish-market?resource=download).
+In this post, we want to estimate the weight of a species of fish called bream as done in the previous one. But, this time we use not only height but also six more characteristics of the fish. For more details about the data, please refer to [Kaggle](https://www.kaggle.com/datasets/aungpyaeap/fish-market?resource=download) or [my previous post]().
 
-We start by loading the necessary libraries and data.
+As usual, we start by loading the necessary libraries and data.
 
 ```
-import pandas as pd
 import numpy as np
+import pandas as pd
 import matplotlib.pyplot as plt
-import seaborn as sns
 from sklearn.linear_model import LinearRegression
 from scipy.stats import f
 
 df = pd.read_csv('fish.csv')
-df.head()
+df_bream = df.loc[df['Species']=='Bream', :]
+df_bream.head()
+print(df_bream.shape)
 ```
-![df_head](https://github.com/seyong2/seyong2.github.io/blob/master/assets/img/figures_simple_linear_regression/df_head.png?raw=true)
+![df_bream_head](https://github.com/seyong2/seyong2.github.io/blob/master/assets/img/figures_simple_linear_regression/df_head.png?raw=true)
 
-The data include 7 traits for 159 fish in the market. The description of the columns are as follows:
+The data include 7 traits for 35 bream fish. The description of the columns are as follows:
 
 - *Species*: species name of fish
 - *Weight*: weight of fish in g
@@ -35,35 +36,32 @@ The data include 7 traits for 159 fish in the market. The description of the col
 - *Height*: height in cm
 - *Width*: diagonal width in cm
 
-We use a scatterplot to investigate the relationship between the weight and height of the fish.
+We are going to use all the variables except for $Species$ to train a multivariate regression model that predicts weight. Since there are in total 5 independent variables, we fit a hyperplane instead of a line that we had in case of a simple linear regression. Then, the regression function can be expressed as follows: $\hat{Weight}=\hat{\beta}_0+\hat{\beta}_1Length1+\hat{\beta}_2Length2+\hat{\beta}_3Length3+\hat{\beta}_4Height+\hat{\beta}_5Width$.
 
 ```
-sns.scatterplot(x=df.loc[:, 'Height'], y=df.loc[:, 'Weight'], hue=df.loc[:, 'Species'])
-```
-![scatter_fish](https://github.com/seyong2/seyong2.github.io/blob/master/assets/img/figures_simple_linear_regression/scatter_fish.png?raw=true)
-
-The figure above shows that there is a positive relationship between the height and weight of all fish species. Since we are only interested in a species called bream, we slice the data.
+X_multiple = df_bream.iloc[:, 2:]
+y = df_bream.iloc[:, 1]
+X_multiple.head()
 
 ```
-df_bream = df[df.loc[:, 'Species'] == 'Bream']
-x = df_bream.loc[:, 'Height']
-y = df_bream.loc[:, 'Weight']
-sns.scatterplot(x=x, y=y)
-```
+![X_multiple_head](https://github.com/seyong2/seyong2.github.io/blob/master/assets/img/figures_simple_linear_regression/scatter_fish.png?raw=true)
 
-![scatter_bream](https://github.com/seyong2/seyong2.github.io/blob/master/assets/img/figures_simple_linear_regression/scatter_bream.png?raw=true)
+The least squares method is used to estimate parameters $\beta$=($\beta_0$,...,$\beta_5$) by minimizing sum of squared residuals (SSR). If the variables are useless for predicting the weight of the fish, that is, if they do not make the SSR any smaller, the method will make their slope set to zero. This implies that adding extra parameters can never result in worse SSR.
+
+```
+reg_multiple = LinearRegression()
+reg_multiple.fit(X_multiple, y)
+```
 
 It seems that we can add a line to the data specific to the bream. But, how can we draw the line that best describes the data? To get an idea, a horizontal line is drawn that cuts through the average weight and this is obviously the worst line one can have. 
 
 ```
-scatter = sns.scatterplot(x=x, y=y)
-scatter.axhline(y.mean(), color='r')
-plt.show()
+pd.DataFrame([reg_multiple.intercept_]+list(reg_multiple.coef_), index=['Intercept']+list(X_multiple.columns), columns=['beta_hat']).T
 ```
 
-![scatter_bream_horizontal](https://github.com/seyong2/seyong2.github.io/blob/master/assets/img/figures_simple_linear_regression/scatter_bream_horizontal.png?raw=true)
+![beta_hat]()
 
-
+The parameter estimates are shown in the table above. Note that the least square estimate for $\beta_4$ is quite different from the one that we obtained using the simple linear regression. This is because $Height$ is correlated with the other variables, which 
 We can measure how well this horizontal line fits the data by calculating the total distance between the line and the data points. However, data points above the mean line have negative distances, which make the overall fit to appear better than it really is. Therefore, the residual sum of squares (SSR) is calculated by squaring and summing the distances.
 
 ```

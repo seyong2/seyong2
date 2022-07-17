@@ -4,7 +4,7 @@ title: Multivariate Regression
 subtitle: Predict Weight of Fish Species using Multiple Variables
 gh-repo: seyong2
 gh-badge: [star, fork, follow]
-tags: [machine learning, simple linear regression]
+tags: [machine learning, multivariate regression]
 comments: true
 ---
 

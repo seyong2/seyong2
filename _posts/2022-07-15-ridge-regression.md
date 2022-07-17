@@ -4,7 +4,7 @@ title: Ridge Regression
 subtitle: Predict Weight of Fish Species using Multiple Variables
 gh-repo: seyong2
 gh-badge: [star, fork, follow]
-tags: [machine learning, simple linear regression]
+tags: [machine learning, ridge regression]
 comments: true
 ---
 
@@ -41,6 +41,7 @@ Ridge regression is typically used when there are no enough data for training a 
 
 Recall the multivariate regression model from the previous post.
 $\hat{Weight}=\hat{\beta}_0 + \hat{\beta}_1Length1 + \hat{\beta}_2Length2 + \hat{\beta}_3Length3 + \hat{\beta}_4Height + \hat{\beta}_5Width$
+
 Instead of minimizing the sum of squared residuals (SSR) that does least squares method, ridge regression estimates the parameters minimizing not only the SSR but also $\lambda\sum_{i=1}^{5}\hat{\beta}_i^2$ where $\lambda$ is the regularization penalty that determines the amount of penalty given to the least squares method. $\lambda$ can take value between 0 and positive infinity and the larger its value is, the more severe the penalty is. To obtain the optimal value for $\lambda$, we use 10-fold cross validation and find the value that produces the lowest variance. 
 
 The parameter estimates using ridge regression are in general smaller than those using the least squares method. This indicates that predictions made by ridge regression model are usually less sensitive to changes in predictors than the least squares model. Then, now we fit a ridge regression model to the data.

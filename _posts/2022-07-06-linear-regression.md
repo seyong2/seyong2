@@ -8,7 +8,7 @@ tags: [test]
 comments: true
 ---
 
-In this post, I try to give you a breif summary of a linear regression model based on the book [**The Elements of Statistical Learning**](https://link.springer.com/book/10.1007/978-0-387-84858-7). While I walk you through the concepts, I also provide a demonstration using data from [Kaggle](https://www.kaggle.com/datasets/aungpyaeap/fish-market?resource=download) about common fish species in fish market. Then, the goal is to estimate the weight of seven common different fish species using a linear regression model. 
+In this post, I try to give you a breif summary of a linear regression model based on the book [**The Elements of Statistical Learning**](https://link.springer.com/book/10.1007/978-0-387-84858-7). While I walk you through the concepts, I will also provide a code demonstration using data from [Kaggle](https://www.kaggle.com/datasets/aungpyaeap/fish-market?resource=download) about common fish species in fish market. Then, the goal is to estimate the weight of seven common different fish species using a linear regression model. 
 
 # Python libraries and Data
 

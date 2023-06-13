@@ -8,15 +8,7 @@ tags: [Statistics, Machine Learning, CatBoost, Encoding, One-Hot Encoding, Label
 comments: true
 ---
 
-This post focuses on the comparison of the encoding methods discussed in the previous article. If you haven't read it yet, please take a look at [CatBoost Part 1 - How CatBoost deals with categorical features](https://seyong2.github.io/2023-05-21-catboost1/). In order to accomplish this, I will utilize the [Data Science Salaries 2023](https://www.kaggle.com/datasets/arnabchaki/data-science-salaries-2023) dataset to predict the gross salary of a data scientist using a machine learning algorithm based on the available features. Before proceeding with the modeling for prediction, I will begin by exploring the dataset to gain an understanding of its structure.
-
-To start off, I will load the dataset and examine its contents.
-
-```
-import pandas as pd
-df = pd.read_csv('/content/drive/MyDrive/ds_salaries.csv')
-df.head()
-```
+In this article, my main focus will be on implementing the CatBoost algorithm discussed in my previous post on an actual dataset. If you haven't had a chance to read it yet, I recommend checking out [CatBoost Part 1 - How CatBoost deals with categorical features](https://seyong2.github.io/2023-05-21-catboost1/). The dataset I'll be working with involves the salaries of data scientists and will be used to predict their experience levels using the machine learning algorithm. If you'd like more information about the data, you can refer to [Data Science Salaries 2023](https://www.kaggle.com/datasets/arnabchaki/data-science-salaries-2023). However, instead of immediately diving into the modeling aspect, I'll first explore the dataset to gain a better understanding of the relationships between its variables. To begin, let's take a look at the first five rows of the data.
 
 | `work_year` | `experience_level` | `employment_type` | `job_title` | `salary` | `salary_currency` | `salary_in_usd`	| `employee_residence` | `remote_ratio` | `company_location` | `company_size` |
 | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
@@ -26,7 +18,7 @@ df.head()
 | 2023 | SE | FT | Data Scientist | 175000	| USD | 175000 | CA | 100 | CA | M |
 | 2023 | SE | FT | Data Scientist | 120000	| USD | 120000 | CA | 100 | CA | M |
 
-The presented table displays the initial five rows of the dataset. It comprises a total of 11 columns, with the `salary_in_usd` column serving as the target variable for prediction. The subsequent table provides a description of each column. Observing the variable types, it appears that the columns are categorized as either numerical or categorical. As demonstrated below, the column types are denoted as either `int64` or `object`.
+There are a total of 11 columns, with the `experience_level` column acting as the target variable for classification. The column names give us a hint about what each column represents, but we can find a detailed description of each column in the following table. Upon examining the content of the first five rows, we can also observe that the variables can be classified as either numerical or categorical. The table below indicates the column types, which are designated as either `int64` for numeric or `object` for categorical. The table also indicates that there are no missing values in the data. With a total of 3,755 rows, the "Non-Null Count" column shows that all values in the last column of the table are listed as '3755 non-null', which means that none of the features have missing values for the 3,755 rows of data.
 
 | Column | Description |
 | :---: | :---: |
@@ -42,22 +34,19 @@ The presented table displays the initial five rows of the dataset. It comprises 
 | `company_location` | The country of the employer's main office or contracting branch |
 | `company_size` | The median number of people that worked for the company during the year |
 
-```
-df.dtypes
-```
-| Column | Type |
-| :---: | :---: |
-| work_year | int64 |
-| experience_level | object |
-| employment_type | object |
-| job_title | object |
-| salary | int64 | 
-| salary_currency | object |
-| salary_in_usd | int64 |
-| employee_residence | object |
-| remote_ratio | int64 |
-| company_location | object |
-| company_size | object |
+| Column | Type | Non-Null Count |
+| :---: | :---: | :---: |
+| work_year | int64 | 3755 non-null |
+| experience_level | object | 3755 non-null |
+| employment_type | object | 3755 non-null |
+| job_title | object | 3755 non-null |
+| salary | int64 | 3755 non-null |
+| salary_currency | object | 3755 non-null |
+| salary_in_usd | int64 | 3755 non-null |
+| employee_residence | object | 3755 non-null |
+| remote_ratio | int64 | 3755 non-null |
+| company_location | object | 3755 non-null |
+| company_size | object | 3755 non-null |
 
 Now that we have the brief grasp of the data, we will get into more details by examining one variable at a time. The first variable to look at is `salary_in_usd`, which is the predictor. Although we also have `salary`, we will not pay attention to it because it is more convenient to compare salaries in the same currency, not in different local currencies. Therefore, we will drop `salary`, and `salary_currency` as they are irrelevant for the analysis that we are trying to do in this post. The most common plot drawn to study a numerical variable would be a histogram as it helps show how the data is distributed. Then, the histogram of `salary_in_usd` tells us that the average salary is around 14,000 the data is right-skewed, although the level of the skewness is not that extreme. 
 

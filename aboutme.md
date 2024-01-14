@@ -15,4 +15,4 @@ In February, I dove into the dynamic world of data analytics through an internsh
 
 Away from the buzzing data world, I find solace in yoga, a recent love affair that helps me unwind from those screen-filled days. When not striking a pose, you'll catch me immersed in a good book, finding serenity in the pages during commutes and before bedtime.
 
-Curious to know more about my professional journey? Dive into my CV, and feel free to connect for a chat. Life is an exciting data set, and I'm thrilled to keep exploring its trends and patterns!
+Curious to know more about my professional journey? Dive into my [CV](https://github.com/seyong2/seyong2.github.io/files/13930937/Seyong.Ryoo.Resume.pdf), and feel free to connect for a chat. Life is an exciting data set, and I'm thrilled to keep exploring its trends and patterns!

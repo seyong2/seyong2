@@ -5,17 +5,14 @@ subtitle: About me
 ---
 
 
-Hi there! My name is Seyong and I'm from Korea but currently live in Madrid, Spain working as a data analyst. If you ask me why I moved to Spain, it's because I'd always dreamt of studying abroad when I was young. Thus, while I was thinking about which country I should go to, I went on a vacation with my family to Spain for two weeks and I fell in love with the country. Therefore, I decided to go to Spain and that's how I ended up living here since 2015 after I finished high school. 
+Hey there! I'm Seyong, originally from Korea but currently soaking up the vibrant vibes of Madrid, Spain, where I work as a data analyst. Wondering why I made the leap across the globe? Well, since my younger days, I dreamt of studying abroad. During a family vacation in Spain, I was captivated by its charm, and that's when the decision was made – I was destined to call Spain home. Fast forward to 2015, and here I am, living the dream!
 
-After one year and a half of studying the language and preparing for the university entrance exam, I got into Universidad Carlos III de Madrid and studied business administration. During my bachelor's, I got two opportunities to go on exchange programs and went to Boston College for a year in my third year and to Shanghai University of Finance and Economics for the first semester of my last year. After my bachelor's, I decided to study for a master's degree as statistics was my favorite course and I wanted to deepen my understanding. Thus, at KU Leuven, I studied statistics and data science for two years where I was able to learn different topics of statistics and hands-on programming practices through various projects.
+After immersing myself in the Spanish language for a year and a half, and acing the university entrance exams, I found myself at the Universidad Carlos III de Madrid, delving into the world of business administration. My academic journey took me even further with exchange programs at Boston College and Shanghai University of Finance and Economics, adding exciting chapters to my story.
 
-After the master's program, I came back to Spain in 2022 and got married to my husband. After the marriage, I had to wait for almost 6 months for approval of my Spain residency. Finally, in January 2023, I obtained the residency and started my internship at Procter & Gamble as a data analyst in February. During the internship, I honed my skills in programming, 
+Fueling my passion for statistics, I pursued a master's degree at KU Leuven, Belgium, where I dived into the intricate realms of statistics and data science. Upon returning to Spain in 2022, life took an exciting turn – I tied the knot with my husband. Navigating the bureaucratic twists and turns, I secured my Spanish residency in January 2023, kicking off a thrilling chapter in my career.
 
-### Should I say they are hobbies?
-- I like to read novels, especially classical novels. 
-- I also like to go to a cafe on a good day and have coffee and sweet desserts.
-- I'm not good at it, but I'm practicing the piano every day.
-- I like to work out, so I'm planning to take a swimming class.
+In February, I dove into the dynamic world of data analytics through an internship at Procter & Gamble. Blending technical expertise with a keen business sense, I seamlessly transitioned into a full-time role after a successful stint. It's been nearly a year, and I continue to thrive in this dynamic space.
 
-### What if you want to know more about me?  
-Please click [here]({{seyong2.github.io}}/assets/cv.pdf) to check out my CV!
+Away from the buzzing data world, I find solace in yoga, a recent love affair that helps me unwind from those screen-filled days. When not striking a pose, you'll catch me immersed in a good book, finding serenity in the pages during commutes and before bedtime.
+
+Curious to know more about my professional journey? Dive into my CV, and feel free to connect for a chat. Life is an exciting data set, and I'm thrilled to keep exploring its trends and patterns!

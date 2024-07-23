@@ -1,3 +1,13 @@
+---
+layout: post
+title: Can we predict quality of banana?
+subtitle: Exploratory Data Analysis and Logistic Regression
+gh-repo: seyong2
+gh-badge: [star, fork, follow]
+tags: [Artificial Intelligence, Machine Learning, Deep Learning, Data Science, Logistic Regression]
+comments: true
+---
+
 ```python
 # This Python 3 environment comes with many helpful analytics libraries installed
 # It is defined by the kaggle/python Docker image: https://github.com/kaggle/docker-python

@@ -326,7 +326,7 @@ df.describe()
         text-align: right;
     }
 </style>
-<table border="1" class="dataframe" width:"100%">
+<table border="1" class="dataframe" style="white-space:nowrap;width:100%">
   <thead>
     <tr style="text-align: right;">
       <th></th>

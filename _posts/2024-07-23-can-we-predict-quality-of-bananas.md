@@ -326,7 +326,7 @@ df.describe()
         text-align: right;
     }
 </style>
-<table border="1" class="dataframe" style="white-space:nowrap;width:fit-content">
+<table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
       <th></th>
@@ -342,13 +342,13 @@ df.describe()
   <tbody>
     <tr>
       <th>count</th>
-      <td>8000.000000</td>
-      <td>8000.000000</td>
-      <td>8000.000000</td>
-      <td>8000.000000</td>
-      <td>8000.000000</td>
-      <td>8000.000000</td>
-      <td>8000.000000</td>
+      <td>8000</td>
+      <td>8000/td>
+      <td>8000</td>
+      <td>8000</td>
+      <td>8000</td>
+      <td>8000</td>
+      <td>8000</td>
     </tr>
     <tr>
       <th>mean</th>

@@ -1533,9 +1533,9 @@ for i in range(1, rows*cols+1):
 ```
 
 
-    
-![png](output_17_0.png)
-    
+
+![output_17_0](https://github.com/user-attachments/assets/33cd3848-0fd9-4fe4-9dd8-5bd8d6677ce8)
+
 
 
 Now, we're ready to set up the DataLoader, which allows us to break down a large dataset into a Python iterable of smaller mini-batches.
@@ -1815,8 +1815,8 @@ plt.show()
 
 
     
-![png](output_33_0.png)
-    
+![output_33_0](https://github.com/user-attachments/assets/8f04e2d4-34e1-44fb-9cb4-20d10d377d20)
+ 
 
 
 We also create a confusion matrix to evaluate the accuracy of our model's predictions against the actual labels.
@@ -1864,8 +1864,8 @@ fix, ax = plot_confusion_matrix(
 
 
     
-![png](output_37_0.png)
-    
+![output_37_0](https://github.com/user-attachments/assets/27a223c4-694d-4a61-8c78-635e78da52e8)
+
 
 
 # 5. Making Predictions on the Data for Submission

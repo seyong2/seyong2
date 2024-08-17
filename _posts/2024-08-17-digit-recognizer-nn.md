@@ -1,3 +1,13 @@
+---
+layout: post
+title: Predicting Digits using Neural Network
+subtitle: Simple Neural Network for Multi-Class Classification Problem
+gh-repo: seyong2
+gh-badge: [star, fork, follow]
+tags: [Artificial Intelligence, Machine Learning, Data Science, Neural Network, Deep Learning]
+comments: true
+---
+
 This notebook is designed to accurately recognize digits in a dataset containing tens of thousands of handwritten images, provided by the "Modified National Institute of Standards and Technology" (MNIST). To achieve this, we will build a simple neural network using PyTorch. For further information, refer to this [link](https://www.kaggle.com/competitions/digit-recognizer/overview).
 
 Let's begin by importing the necessary libraries and loading the data.

@@ -273,7 +273,7 @@ df_train.info()
     memory usage: 1.0+ GB
     
 
-I'll convert $Region\_Code$ and $Policy\_Sales\_Channel$ to integer.
+I'll convert $Region_Code$ and $Policy_Sales_Channel$ to integer.
 
 
 ```python
@@ -581,7 +581,7 @@ sns.countplot(data=df_train, x='Gender', stat='percent')
 
 More than half of the observations are male and the rest (46 percent) are female.
 
-#### $Driving\_License$
+#### $Driving_License$
 
 
 ```python
@@ -633,7 +633,7 @@ df_train['Driving_License'].value_counts(normalize=True)
 
 Almost all customers have driver license, which makes me think whether this variable will be useful for predicting which customers respond positively to an automobile insurance offer as it shows very little variability.
 
-#### $Region\_Code$
+#### $Region_Code$
 
 
 ```python
@@ -680,7 +680,7 @@ print(f"Number of Unique Regions: {unique_regions}")
 
 The customers are located in 54 different regions and around 30 percent of them live in region 28.
 
-#### $Previously\_Insured$
+#### $Previously_Insured$
 
 
 ```python
@@ -732,7 +732,7 @@ df_train['Previously_Insured'].value_counts(normalize=True)
 
 This variable is more or less evenly distributed but there are 7 percent more customers who were not insured previously than those who were.
 
-#### $Vehicle\_Age$
+#### $Vehicle_Age$
 
 
 ```python
@@ -776,7 +776,7 @@ df_train['Vehicle_Age'].value_counts(normalize=True)
 
 More than 95 percent of customers own a vehicle that is 2 years old or newer.
 
-#### $Vehicle\_Damage$
+#### $Vehicle_Damage$
 
 
 ```python
@@ -806,7 +806,7 @@ sns.countplot(data=df_train, x='Vehicle_Damage', stat='percent');
 
 Half of the customers have their vehicle with damages.
 
-#### $Policy\_Sales\_Channel$
+#### $Policy_Sales_Channel$
 
 
 ```python
@@ -852,7 +852,7 @@ print(f"Number of Unique Regions: {unique_channels}")
     Number of Unique Regions: 152
     
 
-There are 152 unique channels where insurance policies are sold and the channel 152 is the most observed channel in the data. Would this variable be related to $Region\_Code$?
+There are 152 unique channels where insurance policies are sold and the channel 152 is the most observed channel in the data. Would this variable be related to $Region_Code$?
 
 #### $Response$
 
@@ -939,7 +939,7 @@ sm.qqplot(df_train['Age'], line ='45');
 
 The variable $Age$ is not normally distributed, with most customers being between 20 and 30 years old. According to the violin plot, there appear to be no outliers.
 
-#### $Annual\_Premium$
+#### $Annual_Premium$
 
 
 ```python
@@ -985,7 +985,7 @@ sm.qqplot(df_train['Annual_Premium'], line ='45');
 
 
 
-The distribution of $Annual\_Premium$ also seems to be far from a normal distribution. Furthermore, its distribution is right skewed meaning that it has a very long right tail. Thus, it is highly likely that there are outliers, which we'll identify later.
+The distribution of $Annual_Premium$ also seems to be far from a normal distribution. Furthermore, its distribution is right skewed meaning that it has a very long right tail. Thus, it is highly likely that there are outliers, which we'll identify later.
 
 #### $Vintage$
 
@@ -1038,8 +1038,6 @@ sm.qqplot(df_train['Vintage'], line ='45');
 
 This variable seems to follow a uniform distribution as all the values are more or less equally likely.
 
-https://www.kaggle.com/code/khangtran94vn/khang-eda-classification-insurance/notebook#Relationship-between-columns
-
 ## Multivariate Analysis
 
 
@@ -1063,15 +1061,15 @@ sns.heatmap(df_train.corr(), annot=True)
 
 Examining the correlation between the variables...
 
-- There is a strong positive correlation between $Age$ and $Vehicle\_Age$. This suggests that younger drivers tend to have newer vehicles, whereas older drivers are more likely to own older vehicles. The reason behind this would be that younger drivers prefer to own newer models, while older drivers keep their vehicles longer.
-- $Previously\_Insured$ and $Vehicle\_Damage$ are strongly and negatively correlated. This implies that drivers who are not insured are more likely to have experienced vehicle damage in the past. This may be because those who were insured were being more cautious or having less risky driving behavior.
-- $Previously\_Insured$ is also negatively correlated with $Vehicle\_Age$ and this is because $Vehicle\_Age$ and $Vehicle\_Damage$ are positively related; the newer the vehicle, the less likely that the vehicle has experienced damages.
-- There is also a negative correlation between $Age$ and $Policy\_Sales\_Channel$. This means that different channels are used to reach out to the customers depending on their age. Older customers may favor traditional methods like agents or phone, while younger customers are more likely to use digital channels.
-- As $Age$ and $Vehicle\_Age$ are strongly and positively correlated, $Policy\_Sales\_Channel$ is also negatively correlated with $Vehicle\_Age$.
-- The dependent variable, $Response$, is negatively correlated with $Previously\_Insured$ as it is quite obvious that if you're already insured, you are more likely to respond negatively to insurance offers. In addition, $Response$ is positively related to $Vehicle\_Damage$. This may be due to the fact that if you have experienced damages to your vehicle in the past, you might want to have your vehicle insured.
+- There is a strong positive correlation between $Age$ and $Vehicle_Age$. This suggests that younger drivers tend to have newer vehicles, whereas older drivers are more likely to own older vehicles. The reason behind this would be that younger drivers prefer to own newer models, while older drivers keep their vehicles longer.
+- $Previously_Insured$ and $Vehicle_Damage$ are strongly and negatively correlated. This implies that drivers who are not insured are more likely to have experienced vehicle damage in the past. This may be because those who were insured were being more cautious or having less risky driving behavior.
+- $Previously_Insured$ is also negatively correlated with $Vehicle_Age$ and this is because $Vehicle_Age$ and $Vehicle_Damage$ are positively related; the newer the vehicle, the less likely that the vehicle has experienced damages.
+- There is also a negative correlation between $Age$ and $Policy_Sales_Channel$. This means that different channels are used to reach out to the customers depending on their age. Older customers may favor traditional methods like agents or phone, while younger customers are more likely to use digital channels.
+- As $Age$ and $Vehicle_Age$ are strongly and positively correlated, $Policy_Sales_Channel$ is also negatively correlated with $Vehicle_Age$.
+- The dependent variable, $Response$, is negatively correlated with $Previously_Insured$ as it is quite obvious that if you're already insured, you are more likely to respond negatively to insurance offers. In addition, $Response$ is positively related to $Vehicle_Damage$. This may be due to the fact that if you have experienced damages to your vehicle in the past, you might want to have your vehicle insured.
 
 
-### $Age$ and $Vehicle\_Age$
+### $Age$ and $Vehicle_Age$
 
 
 ```python
@@ -1100,7 +1098,7 @@ sns.histplot(data=df_train, x='Age', hue='Vehicle_Age', palette=['red', 'blue', 
 
 As we've seen earlier in the correlation heatmap, the plots indicate that vehicles less than 1 year old are typically owned by drivers under 35, while older vehicles are owned by older drivers.
 
-### $Previously\_Insured$ and $Vehicle\_Damage$
+### $Previously_Insured$ and $Vehicle_Damage$
 
 
 ```python
@@ -1132,7 +1130,7 @@ plt.show()
 
 The majority of clients who respond positively to insurance offers are drivers who are not insured and have had their vehicles damaged in the past.
 
-### $Age$ and $Policy\_Sales\_Channel$
+### $Age$ and $Policy_Sales_Channel$
 
 
 ```python

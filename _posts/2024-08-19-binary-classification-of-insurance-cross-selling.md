@@ -1,3 +1,13 @@
+---
+layout: post
+title: Who Would Say YES to an Automobile Insurance Offer?
+subtitle: Simple Neural Network for Binary Classification Problem from Scratch in Python
+gh-repo: seyong2
+gh-badge: [star, fork, follow]
+tags: [Artificial Intelligence, Machine Learning, Data Science, Neural Network, Deep Learning]
+comments: true
+---
+
 ```python
 # load packages
 import numpy as np # linear algebra
@@ -543,9 +553,9 @@ sns.countplot(data=df_train, x='Gender')
 
 
 
+![output_21_1](https://github.com/user-attachments/assets/8cc75b55-64e8-4ebf-aa7f-4b63cc72a46c)
+ 
 
-    
-![png](output_21_1.png)
     
 
 
@@ -564,7 +574,8 @@ sns.countplot(data=df_train, x='Gender', stat='percent')
 
 
     
-![png](output_22_1.png)
+![output_22_1](https://github.com/user-attachments/assets/66c6d046-a243-44b3-80f7-d7e6b9e46db6)
+
     
 
 
@@ -587,7 +598,8 @@ sns.countplot(data=df_train, x='Driving_License')
 
 
     
-![png](output_24_1.png)
+![output_24_1](https://github.com/user-attachments/assets/0241b25e-d0e7-4af1-990e-ab4d9698a930)
+
     
 
 
@@ -599,7 +611,8 @@ sns.countplot(data=df_train, x='Driving_License', stat='percent');
 
 
     
-![png](output_25_0.png)
+![output_25_0](https://github.com/user-attachments/assets/919fe09e-424b-4447-a387-b9b4b0b176ef)
+
     
 
 
@@ -632,7 +645,8 @@ plt.xticks(rotation=45);
 
 
     
-![png](output_28_0.png)
+![output_28_0](https://github.com/user-attachments/assets/714d55db-43fb-4809-a103-0ccf7275f34e)
+
     
 
 
@@ -646,8 +660,8 @@ plt.xticks(rotation=45);
 
 
     
-![png](output_29_0.png)
-    
+![output_29_0](https://github.com/user-attachments/assets/b06252c7-cfcf-4bbc-b8f9-22d233435138)
+
 
 
 
@@ -683,7 +697,8 @@ sns.countplot(data=df_train, x='Previously_Insured')
 
 
     
-![png](output_32_1.png)
+![output_32_1](https://github.com/user-attachments/assets/cb196480-035f-46b7-a967-32de73a385d0)
+
     
 
 
@@ -695,7 +710,8 @@ sns.countplot(data=df_train, x='Previously_Insured', stat='percent');
 
 
     
-![png](output_33_0.png)
+![output_33_0](https://github.com/user-attachments/assets/447e0de8-f851-4293-adb9-eee1ceecef80)
+
     
 
 
@@ -726,8 +742,8 @@ sns.countplot(data=df_train, x='Vehicle_Age');
 
 
     
-![png](output_36_0.png)
-    
+![output_36_0](https://github.com/user-attachments/assets/2e455cbe-df18-4ec1-9678-ec61902ac829)
+
 
 
 
@@ -738,8 +754,8 @@ sns.countplot(data=df_train, x='Vehicle_Age', stat='percent');
 
 
     
-![png](output_37_0.png)
-    
+![output_37_0](https://github.com/user-attachments/assets/897c6544-8a28-4230-a17f-cb6d471199e2)
+
 
 
 
@@ -770,7 +786,8 @@ sns.countplot(data=df_train, x='Vehicle_Damage');
 
 
     
-![png](output_40_0.png)
+![output_40_0](https://github.com/user-attachments/assets/c44e19b2-9a09-4494-86ba-ae41a3ec1149)
+
     
 
 
@@ -782,7 +799,8 @@ sns.countplot(data=df_train, x='Vehicle_Damage', stat='percent');
 
 
     
-![png](output_41_0.png)
+![output_41_0](https://github.com/user-attachments/assets/cae475cc-e1bd-47e1-8eff-c19febbd44ac)
+
     
 
 
@@ -800,7 +818,8 @@ plt.xticks(rotation=45);
 
 
     
-![png](output_43_0.png)
+![output_43_0](https://github.com/user-attachments/assets/887dc6bc-4ea1-48ba-8c51-d2d9dc95e563)
+
     
 
 
@@ -814,7 +833,8 @@ plt.xticks(rotation=45);
 
 
     
-![png](output_44_0.png)
+![output_44_0](https://github.com/user-attachments/assets/4e6a1732-f946-4956-abf9-cb929bdf0b4a)
+
     
 
 
@@ -844,7 +864,8 @@ sns.countplot(data=df_train, x='Response');
 
 
     
-![png](output_47_0.png)
+![output_47_0](https://github.com/user-attachments/assets/c533f14b-faf8-4ccd-8dc8-109158ccc7f9)
+
     
 
 
@@ -856,7 +877,8 @@ sns.countplot(data=df_train, x='Response', stat='percent');
 
 
     
-![png](output_48_0.png)
+![output_48_0](https://github.com/user-attachments/assets/f7d91480-efa7-4211-8af4-82b72af17dcb)
+
     
 
 
@@ -878,7 +900,8 @@ sns.histplot(data=df_train, x='Age');
 
 
     
-![png](output_50_0.png)
+![output_50_0](https://github.com/user-attachments/assets/acb572aa-5169-4647-bc6f-641e205dd2c2)
+
     
 
 
@@ -897,7 +920,8 @@ sns.violinplot(data=df_train, x='Age')
 
 
     
-![png](output_51_1.png)
+![output_51_1](https://github.com/user-attachments/assets/2d6114c2-d684-461d-ab2a-afa189118450)
+
     
 
 
@@ -909,8 +933,8 @@ sm.qqplot(df_train['Age'], line ='45');
 
 
     
-![png](output_52_0.png)
-    
+![output_52_0](https://github.com/user-attachments/assets/e4c234bc-dbac-43ac-b096-c452aa0f2ae3)
+
 
 
 The variable $Age$ is not normally distributed, with most customers being between 20 and 30 years old. According to the violin plot, there appear to be no outliers.
@@ -925,8 +949,8 @@ sns.histplot(data=df_train, x='Annual_Premium');
 
 
     
-![png](output_54_0.png)
-    
+![output_54_0](https://github.com/user-attachments/assets/32ca38c8-4c1a-4157-8fd7-f6040badbd1c)
+
 
 
 
@@ -944,7 +968,8 @@ sns.violinplot(data=df_train, x='Annual_Premium')
 
 
     
-![png](output_55_1.png)
+![output_55_1](https://github.com/user-attachments/assets/6591dd7c-bde3-4dd5-a858-a1054fc4462d)
+
     
 
 
@@ -956,8 +981,8 @@ sm.qqplot(df_train['Annual_Premium'], line ='45');
 
 
     
-![png](output_56_0.png)
-    
+![output_56_0](https://github.com/user-attachments/assets/8687be17-0fe9-4e39-a105-dc8c27a37155)
+
 
 
 The distribution of $Annual\_Premium$ also seems to be far from a normal distribution. Furthermore, its distribution is right skewed meaning that it has a very long right tail. Thus, it is highly likely that there are outliers, which we'll identify later.
@@ -974,7 +999,8 @@ sns.histplot(data=df_train, x='Vintage');
 
 
     
-![png](output_58_0.png)
+![output_58_0](https://github.com/user-attachments/assets/01ad3f29-8bed-4251-a3ca-2f23944b94de)
+
     
 
 
@@ -993,8 +1019,8 @@ sns.violinplot(data=df_train, x='Vintage')
 
 
     
-![png](output_59_1.png)
-    
+![output_59_1](https://github.com/user-attachments/assets/0c22b893-9433-4be3-888d-0b7d84993478)
+
 
 
 
@@ -1005,7 +1031,8 @@ sm.qqplot(df_train['Vintage'], line ='45');
 
 
     
-![png](output_60_0.png)
+![output_60_0](https://github.com/user-attachments/assets/f2965a28-6c4a-4456-a2df-5ee0e1763b2c)
+
     
 
 
@@ -1030,8 +1057,8 @@ sns.heatmap(df_train.corr(), annot=True)
 
 
     
-![png](output_64_1.png)
-    
+![output_64_1](https://github.com/user-attachments/assets/f5601999-a94f-4698-b960-981c66286296)
+
 
 
 Examining the correlation between the variables...
@@ -1054,7 +1081,8 @@ plt.show()
 
 
     
-![png](output_66_0.png)
+![output_66_0](https://github.com/user-attachments/assets/6f26c9c4-3cb4-4daf-9c91-89666af66642)
+
     
 
 
@@ -1065,7 +1093,8 @@ sns.histplot(data=df_train, x='Age', hue='Vehicle_Age', palette=['red', 'blue', 
 
 
     
-![png](output_67_0.png)
+![output_67_0](https://github.com/user-attachments/assets/dc494416-fc83-4396-b4f6-60b64be5ac53)
+
     
 
 
@@ -1080,7 +1109,8 @@ sns.countplot(x='Previously_Insured', hue='Vehicle_Damage', data=df_train);
 
 
     
-![png](output_69_0.png)
+![output_69_0](https://github.com/user-attachments/assets/5a6cccd9-2f5d-4d8c-93c9-4c7a82bfcd87)
+
     
 
 
@@ -1095,7 +1125,8 @@ plt.show()
 
 
     
-![png](output_71_0.png)
+![output_71_0](https://github.com/user-attachments/assets/dfdd78ec-43fa-4534-834a-302599dc2462)
+
     
 
 
@@ -1117,8 +1148,8 @@ plt.show()
 
 
     
-![png](output_74_0.png)
-    
+![output_74_0](https://github.com/user-attachments/assets/009153cc-63f2-4421-aaf8-87f2ece9e6d2)
+
 
 
 Channel 152 and 160 are the ones that reach out to young clients, whereas the other target older audiences.
@@ -1313,29 +1344,6 @@ def initialize_parameters(n_in, n_out, ini_type='plain'):
 
 
 ```python
-def compute_cost(Y, Y_hat):
-    """
-    This function computes and returns the Cost and its derivative.
-    The is function uses the Squared Error Cost function -> (1/2m)*sum(Y - Y_hat)^.2
-    Args:
-        Y: labels of data
-        Y_hat: Predictions(activations) from a last layer, the output layer
-    Returns:
-        cost: The Squared Error Cost result
-        dY_hat: gradient of Cost w.r.t the Y_hat
-    """
-    m = Y.shape[1]
-
-    cost = (1 / (2 * m)) * np.sum(np.square(Y - Y_hat))
-    cost = np.squeeze(cost)  # remove extraneous dimensions to give just a scalar
-
-    dY_hat = -1 / m * (Y - Y_hat)  # derivative of the squared error cost function
-
-    return cost, dY_hat
-```
-
-
-```python
 def compute_stable_bce_cost(Y, Z):
     """
     This function computes the "Stable" Binary Cross-Entropy(stable_bce) Cost and returns the Cost and its
@@ -1454,7 +1462,8 @@ plt.show();
 
 
     
-![png](output_91_0.png)
+![output_91_0](https://github.com/user-attachments/assets/c9e84224-4a8e-408d-a670-33e505e86b0d)
+
     
 
 
@@ -1508,8 +1517,8 @@ print(f"ROC AUC Score: {roc_auc_score(y_test_arr, y_test_preds)}")
 
 
     
-![png](output_95_0.png)
-    
+![output_95_0](https://github.com/user-attachments/assets/3992fd6d-f3bb-4297-a038-f6a9d6e3b2db)
+
 
 
     ROC AUC Score: 0.7869794981510511

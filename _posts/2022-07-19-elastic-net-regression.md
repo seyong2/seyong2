@@ -12,7 +12,7 @@ In the last two posts, we have seen two regularization techniques; Ridge and Las
 
 What if we have a model with millions of variables that we don't know in advance whether or not they will be useful? Which one should we choose to estimate them, ridge or lasso? To avoid having to make this choice, we can use elastic-net regression. Starting with least squares, elastic-net regression combines ridge and lasso regression penalties, that is to say, it minimizes 
 
-$\sum_{i=1}^{n}(y_{i}-X_{i}\beta)^2+\lambda_{L}\sum_{j=1}^{p}|\beta_{j}|+\lambda_{R}\sum_{j=1}^{p}\beta_{j}^{2}$ 
+$min_{\beta}\sum_{i=1}^{n}(y_{i}-X_{i}\beta)^2+\lambda_{L}\sum_{j=1}^{p}|\beta_{j}|+\lambda_{R}\sum_{j=1}^{p}\beta_{j}^{2}$ 
 
 where $n$ is the size of data, $y_i$ is the $i$-th observed value of dependent variable, $X_{i}\beta$ is the corresponding predicted value, $p$ is the number of variables, $\beta_{j}$ is the $j$-th predictor's coefficient, $\lambda_{L}$ and $\lambda_{R}$ are the regularization constants for lasso and ridge regression, respectively. 
 

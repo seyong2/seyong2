@@ -58,7 +58,7 @@ pd.DataFrame([reg_multiple.intercept_]+list(reg_multiple.coef_), index=['Interce
 
 ![beta_hat](https://github.com/seyong2/seyong2.github.io/blob/master/assets/img/figures_multivariate_regression/beta_hat.png?raw=true)
 
-The parameter estimates are shown in the table above. Note that the least square estimate for $\beta_4$ is quite different from the one that we obtained using the simple linear regression. This is due to multicollinearity where the variables are correlated with each other, which can also be seen in the correlation matrix below. 
+The parameter estimates are shown in the table above. Note that the least square estimate for $\beta_4$ is quite different from the one that we obtained using the simple linear regression (102.70). This is due to multicollinearity where the variables are correlated with each other, which can also be seen in the correlation matrix below. 
 
 ```
 sns.heatmap(X_multiple.corr())

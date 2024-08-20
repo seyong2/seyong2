@@ -101,7 +101,7 @@ def R2(SSR_mean, SSR_line):
 R2(SSR(y, [y.mean()]*len(y)), SSR(y, y_hat))
 ```
 
-Here, the value of $R^2$ is 0.93, indicating that the relationship between height and weight accounts for nearly 93% of the total variance. But is this value statistically significant? To determine whether or not it is significant, we need to compute the $p$-value for the $F$-statistic defined as $\frac{SS(mean)-SS(fit)/(p_{fit}-p_{mean})}{SS(fit)/(n-p_{fit})}$ where where $n$ is the size of the data, $p_{fit}$ is the number of parameters in the fitted line and $p_{mean}$ is the number of parameters in the mean line. The numerator, then, is the variance of fish weight explained by the height and the denominator is the amount of variation that remains unexplained. So, really large values of the $F$ statistic indicate a good fit of the line. For the $p$-value, we use the $F$-distribution to calculate the probability of obtaining an $F$ statistic at least as extreme as the observed statistic.
+Here, the value of $R^2$ is 0.93, indicating that the independent variable (height) explains 93% of the variance in weight. But is this value statistically significant? To determine whether or not it is significant, we need to compute the $p$-value for the $F$-statistic defined as $\frac{SS(mean)-SS(fit)/(p_{fit}-p_{mean})}{SS(fit)/(n-p_{fit})}$ where where $n$ is the size of the data, $p_{fit}$ is the number of parameters in the fitted line and $p_{mean}$ is the number of parameters in the mean line. The numerator, then, is the variance of fish weight explained by the height and the denominator is the amount of variation that remains unexplained. So, really large values of the $F$ statistic indicate a good fit of the line. For the $p$-value, we use the $F$-distribution to calculate the probability of obtaining an $F$ statistic at least as extreme as the observed statistic.
 
 ```
 def F_stat(SSR_mean, SSR_fit, n, p_fit, p_mean):
@@ -114,3 +114,5 @@ p_val
 ```
 
 In this example, the $p$-value is very close to 0, which is much less than the significance level of 0.05. Consequently, we conclude that $R^2$ is significant and that the height of the fish explains much of the variation in weight.
+
+In this post, we built a simple linear model to predict the weight of Bream based on its height. In the next post, we'll incorporate additional features to explore whether including more variables can improve the accuracy of our weight predictions.

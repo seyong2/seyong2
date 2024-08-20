@@ -40,18 +40,25 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.33, random
 As previously mentioned, Ridge regression is a technique used in machine learning and statistics to analyze multiple regression data that suffer from multicollinearity (when independent variables are highly correlated). It is a type of regularization method that introduces a penalty term to the ordinary least squares (OLS) regression to prevent overfitting and improve the model's generalization to unseen data.
 
 Recall the multivariate regression model from the last post.
+
 $\hat{Weight}=\hat{\beta}_0 + \hat{\beta}_1Length1 + \hat{\beta}_2Length2 + \hat{\beta}_3Length3 + \hat{\beta}_4Height + \hat{\beta}_5Width$
 
-Instead of minimizing the sum of squared residuals (SSR) that does the least squares method, ridge regression estimates the parameters minimizing not only the SSR but also $\lambda\sum_{i=1}^{5}\hat{\beta}_i^2$ where $\lambda$ is the regularization penalty that determines the amount of penalty given to the least squares method. $\lambda$ can take value between 0 and positive infinity and the larger its value is, the more severe the penalty is. To obtain the optimal value for $\lambda$, we use 10-fold cross validation and find the value that produces the lowest variance. 
+To find the coefficient values that best describes the data, we used the least squares method by minimizing the following cost function.
 
-The parameter estimates using ridge regression are in general smaller than those using the least squares method. This indicates that predictions made by ridge regression model are usually less sensitive to changes in predictors than the least squares model. Then, now we fit a ridge regression model to the data.
+$min_{\beta} \sum_{i=1}^{n}(y_i-X_i\beta)^2$
+
+Instead of minimizing the sum of squared residuals (SSR) that does the least squares method, ridge regression estimates the parameters minimizing not only the SSR but also $\lambda\sum_{j=1}^{p}\beta_j^2$ where $\lambda$ is the regularization penalty that determines the amount of penalty given to the least squares method. $\lambda$ can take a value between 0 and positive infinity and the larger its value is, the more severe the penalty is. To obtain the optimal value for $\lambda$, we use 10-fold cross-validation and find the value that produces the lowest variance in the coefficients.
+
+$min_{\beta} \sum_{i=1}^{n}(y_i-X_i\beta)^2+\lambda\sum_{j=1}^{p}\beta_j^2$
+
+The parameter estimates using ridge regression are in general smaller than those using the least squares method. This indicates that predictions made by the ridge regression model are usually less sensitive to changes in predictors than the least squares model. Then, now we fit a ridge regression model to the training data.
 
 ```
 reg_ridge = RidgeCV(alphas=np.arange(0, 10, 0.1), scoring='neg_mean_squared_error', cv=10).fit(X_train, y_train)
 reg_ridge.alpha_
 ```
 
-The argument 'alphas' in function *RidgeCV* is the list of possible values for the regularization parameter, $\lambda$. We use 10-fold cross validation to obtain the one that produces the smallest average mean squared error (MSE) as specified in argument 'scoring'. After the training, the optimal value of $lambda$ is found to be 1.0, meaning that imposing penalty on the coefficients imporves the model performance. To verify it, we also fit a multivariate regression model to the training data and compare the results.
+The argument 'alphas' in function *RidgeCV* is the list of possible values for the regularization parameter, $\lambda$. We use 10-fold cross-validation to obtain the one that produces the smallest average mean squared error (MSE) as specified in argument 'scoring'. After the training, the optimal value of $lambda$ is found to be 1.0, meaning that imposing a penalty on the coefficients improves the model performance. To verify it, we also fit a multivariate regression model to the training data and compare the results.
 
 ```
 reg_no_ridge = LinearRegression().fit(X_train, y_train)
@@ -80,4 +87,4 @@ pd.DataFrame.from_dict({"SSR_ridge": [SSR_ridge], "SSR_no_ridge": [SSR_no_ridge]
 
 ![ssr_comparison](https://github.com/seyong2/seyong2.github.io/blob/master/assets/img/figures_ridge_regression/ssr_comparison.png?raw=true)
 
-Finally, let's see how the two models work on the test data. The SSR values indicate that the ridge regression model has less variance than the multivariate regression one. In other words, since the ridge regression model produces better predictions, it is recommended that we opt for a ridge regression model instead of a multivariate regression model in case we observe multicollinearity in data.
+Finally, let's see how the two models work on the test data. The SSR values indicate that the ridge regression model has less variance than the multivariate regression one. In other words, since the ridge regression model produces better predictions, it is recommended that we opt for a ridge regression model instead of a multivariate regression model in case we observe multicollinearity in data. However, there are some limitations when using a ridge regression model and one of them is that the coefficients are shrunk but not eliminated, which can make model interpretation challenging when dealing with many variables. For this reason, in the next post, we will explore lasso regression (which uses L1 penalty) which performs variable selection.

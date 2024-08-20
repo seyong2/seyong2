@@ -8,9 +8,13 @@ tags: [machine learning, lasso regression]
 comments: true
 ---
 
-In today's article, we will look at lasso regression as an extension of ridge regression. They are very similar in that they aim to reduce variance at the expense of bias by penalizing a model with a penality term. The difference between them is that lasso regression takes the sum of absolute values of coefficients instead of the sum of squared coefficients. In other words, lasso regression minimizes $\sum_{i=1}^{N}(y_{i}-\hat{y}_{i})^{2}+\lambda\times\sum_{j=1}^{P}\hat{\beta}_{j}$ where $N$ is the data size, $\lambda$ is the regularization parameter and $P$ is the number of slope coefficients. 
+In today's article, we will look at lasso regression as an extension of ridge regression. They are very similar in that they aim to reduce variance at the expense of bias by penalizing a model with a penality term. The difference between them is that lasso regression takes the sum of absolute values of coefficients instead of the sum of squared coefficients. In other words, lasso regression minimizes 
 
-Let's have a look at how this differnece in the penalty term makes lasso regression work differently from ridge regression. The comparison is done by means of mean squared error (MSE) from estimating the relationship between weight of bream fish and five independent variables. We start by loading necesssary libraries and the data. As always, we use the data about common fish species from [Kaggle](https://www.kaggle.com/datasets/aungpyaeap/fish-market?resource=download). 
+$min_{\beta} \sum_{i=1}^{n}(y_i-X_i\beta)^2+\lambda\sum_{j=1}^{p}|\beta_j|$
+
+where $n$ is the data size, $\lambda$ is the regularization parameter and $p$ is the number of slope coefficients. 
+
+Let's have a look at how this differnece in the penalty term makes lasso regression work differently from ridge regression. The comparison is done by means of mean squared error (MSE) from estimating the relationship between the weight of bream fish and five independent variables. We start by loading necessary libraries and the data. As always, we use the data about common fish species from [Kaggle](https://www.kaggle.com/datasets/aungpyaeap/fish-market?resource=download). 
 
 ```
 import numpy as np
@@ -25,7 +29,7 @@ df_bream.head()
 
 ![df_bream_head](https://github.com/seyong2/seyong2.github.io/blob/master/assets/img/figures_multivariate_regression/df_bream_head.png?raw=true)
 
-We define the features ($X$) and the dependent variable ($y$) and split them into training and test data. The training data contains two-thirds of the total observations, and the rest of the data is used to determine the amount of variance produced by various models.
+We define the features ($X$) and the dependent variable ($y$) and split them into training and test data. The training data contains two-thirds of the total observations, and the rest of the data is used to determine how good the trained models are on unseen data.
 
 ```
 X = df_bream.iloc[:, 2:]
@@ -35,7 +39,7 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.33, random
 print(X_train.shape, X_test.shape)
 ```
 
-We fit three different models to the data; ridge, lasso and multivariate regression models. To determine the optimal $\lambda$ value for the ridge and lasso regressions, we use 10-fold cross-validation for each value of the argument, 'alphas'. The values that produce the smallest MSE are 1.0 and 0.4, respectively, for the ridge and lasso regression models.
+We fit three different models to the training data; ridge, lasso and multivariate regression models. To determine the optimal $\lambda$ value for the ridge and lasso regressions, we use 10-fold cross-validation for each value of the argument, 'alphas'. The values that produce the smallest MSE are 1.0 and 0.4, respectively, for the ridge and lasso regression models.
 
 ```
 reg_ridge = RidgeCV(alphas=np.arange(0, 10, 0.1), scoring='neg_mean_squared_error', cv=10).fit(X_train, y_train)

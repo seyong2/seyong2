@@ -14,7 +14,9 @@ $min_{\beta} \sum_{i=1}^{n}(y_i-X_i\beta)^2+\lambda\sum_{j=1}^{p}|\beta_j|$
 
 where $n$ is the data size, $\lambda$ is the regularization parameter and $p$ is the number of slope coefficients. 
 
-Let's have a look at how this differnece in the penalty term makes lasso regression work differently from ridge regression. The comparison is done by means of mean squared error (MSE) from estimating the relationship between the weight of bream fish and five independent variables. We start by loading necessary libraries and the data. As always, we use the data about common fish species from [Kaggle](https://www.kaggle.com/datasets/aungpyaeap/fish-market?resource=download). 
+The difference in the penalty term can make lasso regression preferable to ridge regression in certain situations. The L1 penalty not only shrinks the coefficients like ridge regression but can also shrink some of them exactly to zero. Thus, lasso's ability to zero out coefficients makes it particularly useful in high-dimensional datasets where many predictors might be irrelevant. 
+
+Now, we will compare the performance of multivariate, ridge, and lasso regression models by means of mean squared error (MSE) from estimating the relationship between the weight of bream fish and five independent variables. We start by loading the necessary libraries and the data. As always, we use the data about common fish species from [Kaggle](https://www.kaggle.com/datasets/aungpyaeap/fish-market?resource=download). 
 
 ```
 import numpy as np
@@ -39,7 +41,7 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.33, random
 print(X_train.shape, X_test.shape)
 ```
 
-We fit three different models to the training data; ridge, lasso and multivariate regression models. To determine the optimal $\lambda$ value for the ridge and lasso regressions, we use 10-fold cross-validation for each value of the argument, 'alphas'. The values that produce the smallest MSE are 1.0 and 0.4, respectively, for the ridge and lasso regression models.
+We fit three different models to the training data; ridge, lasso, and multivariate regression models. To determine the optimal $\lambda$ value for the ridge and lasso regressions, we use 10-fold cross-validation for each value of the argument, 'alphas'. The values that produce the smallest MSE are 1.0 and 0.4, respectively, for the ridge and lasso regression models.
 
 ```
 reg_ridge = RidgeCV(alphas=np.arange(0, 10, 0.1), scoring='neg_mean_squared_error', cv=10).fit(X_train, y_train)
@@ -50,7 +52,7 @@ reg_ridge.alpha_
 reg_lasso.alpha_
 ```
 
-Now that we have three models fitted to the data, we examin their estimates of the coefficient parameters and MSE on the test data. As you can see the estimates, with lasso regression, are not reduced to zero, which means that all the predictors are relevant to the outcome variable, $Weight$. Also, their absolute values are greater than the values estimated by lasso regression, but smaller than the model without a penalty term. 
+Now that we have three models fitted to the data, we examine their estimates of the coefficient parameters and MSE on the test data. As you can see the estimates, with lasso regression, are not reduced to zero, which means that all the predictors are relevant to the outcome variable, $Weight$. Also, their absolute values are greater than the values estimated by lasso regression, but smaller than the model without a penalty term. 
 
 ```
 beta_hat_ridge = pd.DataFrame([reg_ridge.intercept_]+list(reg_ridge.coef_), index=['Intercept']+list(X.columns), columns=['beta_hat_ridge']).T
@@ -60,7 +62,7 @@ pd.concat([beta_hat_ridge, beta_hat_lasso, beta_hat_no_penalty])
 ```
 ![beta_hat_comparison](https://github.com/seyong2/seyong2.github.io/blob/master/assets/img/figures_lasso_regression/beta_hat_comparison.png?raw=true)
 
-Finally, we compare the MSE of the models. It can be seen from the table below that the ridge regression model performed best on the test data follwed by the lasso and multivariate regression models. This was an expected result because the coefficients estimated by the ridge regression model had the smallest absolute values. If the model had contained many useless variables, lasso regression could have removed them from the model. And this would have led the lasso regression to have a better performance than the ridge model.
+Finally, we compare the MSE of the models. It can be seen from the table below that the ridge regression model performed best on the test data followed by the lasso and multivariate regression models. This was an expected result because the coefficients estimated by the ridge regression model had the smallest absolute values. If the model had contained many useless variables, lasso regression could have removed them from the model by shrinking their coefficients exactly to zero. This would have led the lasso regression to have a better performance than the ridge model.
 
 ```
 def MSE(y, y_hat):

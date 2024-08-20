@@ -106,7 +106,8 @@ p_val = 1-f.cdf(F,p_fit-p_mean, n-p_fit)
 p_val
 ```
 
-In this example, the $p$-value is very close to 0 and is much smaller than the significance level of 0.05. Therefore, we conclude that the five variables explain much of the variation in weight. Until now, we have compared the multivariate regression to the mean but, we can also do the same with a simple linear regression. A comparison between fits with and without the additional variables will tell us if it worh including them in the model.
+In this example, the $p$-value is very close to 0 and is much smaller than the significance level of 0.05. Therefore, we conclude that the five variables explain more variance in weight than a model with no predictors (which would have $R^2$ = 0). Until now, we have compared the multivariate regression to the mean but, we can also do the same with a simple linear regression. A comparison between fits with and without the additional variables will tell us if it worh including them in the model.
+
 
 ```
 X_simple = X_multiple['Height']
@@ -123,4 +124,4 @@ n = len(y)
 p_val = 1-f.cdf(F, p_multiple-p_simple, n-p_multiple)
 p_val
 ```
-The resulting $p$-value is approximately 0.19, which leads us to a conclustion that we are good enough with the simple regression model.
+The resulting $p$-value is approximately 0.19, which leads us to a conclusion that we are good enough with the simple regression model. This is likely a result of the multicollinearity we've observed in both the first post and here. In upcoming posts, we'll address this issue and explore whether a model with additional features can outperform the single linear regression model we built earlier.

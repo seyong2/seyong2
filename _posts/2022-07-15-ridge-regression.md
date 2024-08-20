@@ -12,7 +12,7 @@ In the previous post, we modeled the relationship between the weight of bream fi
 
 ![corr_mat](https://github.com/seyong2/seyong2.github.io/blob/master/assets/img/figures_multivariate_regression/corr_mat.png?raw=true)
 
-We star by loading necessary libraries and data as usual.
+We start by loading necessary libraries and data as usual.
 
 ```
 import numpy as np
@@ -28,7 +28,7 @@ df_bream.head()
 
 ![df_bream_head](https://github.com/seyong2/seyong2.github.io/blob/master/assets/img/figures_multivariate_regression/df_bream_head.png?raw=true)
 
-As in the previous post, we assign $Weight$ to the dependent variable, $y$ and the remaining variables except $Species$ to $X$. And in order to see how the ridge regression model works on the data not used for training, we split the data into training and test set. The test data will contain 33% of the total observations. We also set the seed for the random generator to 1 for reproducibility. Different values for this argument lead to different outcomes. Then, the data for training and testing have 23 and 12 observations, respectively. 
+As in the previous post, we assign $Weight$ to the dependent variable, $y$ and the remaining variables except $Species$ to $X$. To see how the ridge regression model works on the data not used for training, we split the data into training and test set. The test data will contain 33% of the total observations. We also set the seed for the random generator to 1 for reproducibility. Different values for this argument lead to different outcomes. Then, the data for training and testing have 23 and 12 observations, respectively. 
 
 ```
 X = df_bream.iloc[:, 2:]
@@ -37,12 +37,12 @@ y = df_bream['Weight']
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.33, random_state=1)
 ```
 
-Ridge regression is typically used when there are no enough data for training a model. If the data size is small, it is highly likely that the resulting model has high variance even if it has small bias. In other words, the model tends to overfit to the training data, meaning that the model has a very good fit on the training data but at the same time it produes poor predictions on new data. This problem can be prevented by means of ridge regression that tries to reduce variance by fining a model that fits worse the training data. Thus, even if we gain a small amount of bias, we are able to obtain a significant drop in variance at the same time.
+As previously mentioned, Ridge regression is a technique used in machine learning and statistics to analyze multiple regression data that suffer from multicollinearity (when independent variables are highly correlated). It is a type of regularization method that introduces a penalty term to the ordinary least squares (OLS) regression to prevent overfitting and improve the model's generalization to unseen data.
 
-Recall the multivariate regression model from the previous post.
+Recall the multivariate regression model from the last post.
 $\hat{Weight}=\hat{\beta}_0 + \hat{\beta}_1Length1 + \hat{\beta}_2Length2 + \hat{\beta}_3Length3 + \hat{\beta}_4Height + \hat{\beta}_5Width$
 
-Instead of minimizing the sum of squared residuals (SSR) that does least squares method, ridge regression estimates the parameters minimizing not only the SSR but also $\lambda\sum_{i=1}^{5}\hat{\beta}_i^2$ where $\lambda$ is the regularization penalty that determines the amount of penalty given to the least squares method. $\lambda$ can take value between 0 and positive infinity and the larger its value is, the more severe the penalty is. To obtain the optimal value for $\lambda$, we use 10-fold cross validation and find the value that produces the lowest variance. 
+Instead of minimizing the sum of squared residuals (SSR) that does the least squares method, ridge regression estimates the parameters minimizing not only the SSR but also $\lambda\sum_{i=1}^{5}\hat{\beta}_i^2$ where $\lambda$ is the regularization penalty that determines the amount of penalty given to the least squares method. $\lambda$ can take value between 0 and positive infinity and the larger its value is, the more severe the penalty is. To obtain the optimal value for $\lambda$, we use 10-fold cross validation and find the value that produces the lowest variance. 
 
 The parameter estimates using ridge regression are in general smaller than those using the least squares method. This indicates that predictions made by ridge regression model are usually less sensitive to changes in predictors than the least squares model. Then, now we fit a ridge regression model to the data.
 

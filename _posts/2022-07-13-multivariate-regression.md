@@ -47,7 +47,7 @@ X_multiple.head()
 ```
 ![X_multiple_head](https://github.com/seyong2/seyong2.github.io/blob/master/assets/img/figures_multivariate_regression/X_multiple_head.png?raw=true)
 
-The least squares method is used to estimate parameters $\beta$=($\beta_0$,...,$\beta_5$) by minimizing sum of squared residuals (SSR). If the variables are useless for predicting the weight of the fish, that is, if they do not make the SSR any smaller, the method will make their slope set to zero. This implies that adding extra parameters can never result in worse SSR.
+The least squares method is used to estimate parameters $\beta$=($\beta_0$, $\beta_1$, $\beta_2$, $\beta_3$, $\beta_4$, $\beta_5$) by minimizing sum of squared residuals (SSR). If the variables are useless for predicting the weight of the fish, that is, if they do not make the SSR any smaller, the method will make their slope set to zero. This implies that adding extra parameters can never result in worse SSR.
 
 ```
 reg_multiple = LinearRegression()

@@ -8,7 +8,7 @@ tags: [machine learning, multivariate regression]
 comments: true
 ---
 
-In this post, we want to estimate the weight of a species of fish called bream as done in the previous one. But, this time we use not only height but also six more characteristics of the fish. For more details about the data, please refer to [Kaggle](https://www.kaggle.com/datasets/aungpyaeap/fish-market?resource=download) or [my previous post]().
+In this post, we want to estimate the weight of a species of fish called bream as done in the previous one. But, this time we use not only height but also four more characteristics of the fish. For more details about the data, please refer to [Kaggle](https://www.kaggle.com/datasets/aungpyaeap/fish-market?resource=download) or [my previous post](https://seyong2.github.io/2022-07-10-simple-linear-regression/).
 
 As usual, we start by loading the necessary libraries and data.
 
@@ -37,7 +37,7 @@ The data include 7 traits for 35 bream fish. The description of the columns are 
 - *Height*: height in cm
 - *Width*: diagonal width in cm
 
-We are going to use all the variables except for $Species$ to train a multivariate regression model that predicts weight. Since there are in total 5 independent variables, we fit a hyperplane instead of a line that we had in case of a simple linear regression. Then, the regression function can be expressed as follows: $\hat{Weight}=\hat{\beta}_0+\hat{\beta}_1Length1+\hat{\beta}_2Length2+\hat{\beta}_3Length3+\hat{\beta}_4Height+\hat{\beta}_5Width$.
+We are going to use all the numerical variables to train a multivariate regression model that predicts weight. Since there are in total 5 independent variables, we fit a hyperplane instead of a line that we had in case of a simple linear regression. Then, the regression function can be expressed as follows: $\hat{Weight}=\hat{\beta}_0+\hat{\beta}_1Length1+\hat{\beta}_2Length2+\hat{\beta}_3Length3+\hat{\beta}_4Height+\hat{\beta}_5Width$.
 
 ```
 X_multiple = df_bream.iloc[:, 2:]

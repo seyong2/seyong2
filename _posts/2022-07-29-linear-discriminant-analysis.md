@@ -45,55 +45,55 @@ To understand how to solve a problem using Linear Discriminant Analysis (LDA), l
 
 2. **Compute the Mean Vectors**
    - First, calculate the mean vector for each class:
-     $$
-     \mathbf{\mu}_1 = \frac{1}{n_1} \sum_{\mathbf{x}_i \in C_1} \mathbf{x}_i, \quad \mathbf{\mu}_2 = \frac{1}{n_2} \sum_{\mathbf{x}_i \in C_2} \mathbf{x}_i
-     $$
+     
+     $$\mu_1 = \frac{1}{n_1} \sum_{x_i \in C_1} x_i, \quad \mu_2 = \frac{1}{n_2} \sum_{x_i \in C_2} x_i$$
+     
      where $n_1$ and $n_2$ are the number of samples in classes $C_1$ and $C_2$, respectively.
 
 3. **Compute the Scatter Matrices**
 
    - **Within-Class Scatter Matrix ($\mathbf{S}_W$)**:
-     $$
-     \mathsf{\mathbf{S}_W} = \sum_{\mathbf{x}_i \in C_1} (\mathbf{x}_i - \mathbf{\mu}_1)(\mathbf{x}_i - \mathbf{\mu}_1)^T + \sum_{\mathbf{x}_i \in C_2} (\mathbf{x}_i - \mathbf{\mu}_2)(\mathbf{x}_i - \mathbf{\mu}_2)^T
-     $$
+     
+     $$S_W = \sum_{x_i \in C_1} (x_i - \mu_1)(x_i - \mu_1)^T + \sum_{x_i \in C_2} (x_i - \mu_2)(x_i - \mu_2)^T$$
+     
      $\mathbf{S}_W$ measures how much the samples within each class scatter around their mean.
 
    - **Between-Class Scatter Matrix ($\mathbf{S}_B$)**:
-     ```math
-     \mathbf{S}_B = (\mathbf{\mu}_1 - \mathbf{\mu}_2)(\mathbf{\mu}_1 - \mathbf{\mu}_2)^T
-     ```
+     
+     $$S_B = (\mu_1 - \mu_2)(\mu_1 - \mu_2)^T$$
+     
      $\mathbf{S}_B$ measures how much the means of the classes scatter with respect to each other.
 
 4. **Compute the Optimal Projection Vector ($\mathbf{w}$)**
    - The goal of LDA is to find a projection vector $\mathbf{w}$ that maximizes the separability between the classes. This vector is found by solving the following optimization problem:
-     ```math
-     \mathbf{w} = \mathbf{S}_W^{-1} (\mathbf{\mu}_1 - \mathbf{\mu}_2)
-     ```
+     
+     $$w = S_W^{-1} (\mu_1 - \mu_2)$$
+     
      Here, $\mathbf{S}_W^{-1}$ is the inverse of the within-class scatter matrix, and $\mathbf{\mu}_1 - \mathbf{\mu}_2$ is the difference between the mean vectors of the two classes.
 
 5. **Project the Data onto the New Axis**
    - Once the optimal $\mathbf{w}$ is found, you project each data point onto this vector:
-     ```math
-     z_i = \mathbf{w}^T \mathbf{x}_i
-     ```
+     
+     $$z_i = w^T x_i$$
+     
      This projection reduces the dimensionality of the data (in this case, to a single dimension) while maximizing the separation between the classes.
 
 6. **Classification**
-   - To classify a new data point $\mathbf{x}_{\text{new}}$, compute the projection $z_{\text{new}} = \mathbf{w}^T \mathbf{x}_{\text{new}}$.
+   - To classify a new data point $x_{\text{new}}$, compute the projection $z_{\text{new}} = w^T x_{\text{new}}$.
    - A common approach is to use a threshold $\theta$ for classification:
-     ```math
-     \text{If } z_{\text{new}} > \theta \text{, classify as } C_1 \text{; otherwise, classify as } C_2.
-     ```
+     
+     $$\text{If } z_{\text{new}} > \theta \text{, classify as } C_1 \text{; otherwise, classify as } C_2.$$
+     
    - The threshold $\theta$ can be chosen based on the midpoint between the projected means of the two classes:
-     ```math
-     \theta = \frac{1}{2} \mathbf{w}^T (\mathbf{\mu}_1 + \mathbf{\mu}_2)
-     ```
+     
+     $$\theta = \frac{1}{2} w^T (\mu_1 + \mu_2)$$
+     
 
 7. **Generalization to Multiple Classes**
    - For more than two classes, LDA generalizes to finding a set of projection vectors (discriminants) that maximize class separability. The scatter matrices are defined similarly, but you solve a generalized eigenvalue problem:
-     ```math
-     \mathbf{S}_W^{-1} \mathbf{S}_B \mathbf{w}_i = \lambda_i \mathbf{w}_i
-     ```
+     
+     $$S_W^{-1} S_B w_i = \lambda_i w_i$$
+     
      where $\lambda_i$ are the eigenvalues and $\mathbf{w}_i$ are the corresponding eigenvectors. The eigenvectors corresponding to the largest eigenvalues are chosen as the discriminants.
 
 In Python, we will use the **LinearDiscriminantAnalysis** function from scikit-learn to implement this approach.

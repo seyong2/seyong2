@@ -43,19 +43,19 @@ To understand how to solve a problem using Linear Discriminant Analysis (LDA), l
 1. **Formulate the Problem**
    - Suppose you have a dataset with $n$ samples, each with $d$ features. The data is labeled into two classes, $C_1$ and $C_2$. Let $\mathbf{x}_i$ represent a feature vector (data point) and $y_i$ be the corresponding class label.
 
-3. **Compute the Mean Vectors**
+2. **Compute the Mean Vectors**
    - First, calculate the mean vector for each class:
-     ```math
+     $$
      \mathbf{\mu}_1 = \frac{1}{n_1} \sum_{\mathbf{x}_i \in C_1} \mathbf{x}_i, \quad \mathbf{\mu}_2 = \frac{1}{n_2} \sum_{\mathbf{x}_i \in C_2} \mathbf{x}_i
-     ```
+     $$
      where $n_1$ and $n_2$ are the number of samples in classes $C_1$ and $C_2$, respectively.
 
 3. **Compute the Scatter Matrices**
 
    - **Within-Class Scatter Matrix ($\mathbf{S}_W$)**:
-     ```math
+     $$
      \mathsf{\mathbf{S}_W} = \sum_{\mathbf{x}_i \in C_1} (\mathbf{x}_i - \mathbf{\mu}_1)(\mathbf{x}_i - \mathbf{\mu}_1)^T + \sum_{\mathbf{x}_i \in C_2} (\mathbf{x}_i - \mathbf{\mu}_2)(\mathbf{x}_i - \mathbf{\mu}_2)^T
-     ```
+     $$
      $\mathbf{S}_W$ measures how much the samples within each class scatter around their mean.
 
    - **Between-Class Scatter Matrix ($\mathbf{S}_B$)**:

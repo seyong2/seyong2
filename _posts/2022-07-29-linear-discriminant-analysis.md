@@ -54,7 +54,7 @@ To understand how to solve a problem using Linear Discriminant Analysis (LDA), l
 
    - **Within-Class Scatter Matrix ($\mathbf{S}_W$)**:
      ```math
-     \mathbf{S}_W = \sum_{\mathbf{x}_i \in C_1} (\mathbf{x}_i - \mathbf{\mu}_1)(\mathbf{x}_i - \mathbf{\mu}_1)^T + \sum_{\mathbf{x}_i \in C_2} (\mathbf{x}_i - \mathbf{\mu}_2)(\mathbf{x}_i - \mathbf{\mu}_2)^T
+     \mathsf{\mathbf{S}_W} = \sum_{\mathbf{x}_i \in C_1} (\mathbf{x}_i - \mathbf{\mu}_1)(\mathbf{x}_i - \mathbf{\mu}_1)^T + \sum_{\mathbf{x}_i \in C_2} (\mathbf{x}_i - \mathbf{\mu}_2)(\mathbf{x}_i - \mathbf{\mu}_2)^T
      ```
      $\mathbf{S}_W$ measures how much the samples within each class scatter around their mean.
 

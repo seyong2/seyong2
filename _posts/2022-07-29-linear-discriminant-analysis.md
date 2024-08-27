@@ -8,7 +8,13 @@ tags: [machine learning, linear discriminant analysis, lda]
 comments: true
 ---
 
-In today's post, we are going to see what linear discriminant analysis (LDA) is and how it works through an easy example. The data used in this example is the same as the one we used to illustrate logistic regression. For more information about the data, check out [Kaggle](https://www.kaggle.com/datasets/gabrielsantello/advertisement-click-on-ad). Let's have a look at the scatter plot below where we have **Daily Internet Usage** and **Age** on the $x$- and $y$-axis, respectively, for both users who clicked on the ad or not. Seemingly, the consumers who use more internet on a daily basis are less likely to have clicked on the ad. On the other hand, the variable, **Age**, does not seem to separate the consumers who clicked on the add from those who did not. If we are interested in having a new axis based on the two variables, instead of two as we have now, how can it be drawn in order to separate best two types of consumers?
+In today’s post, we'll explore Linear Discriminant Analysis (LDA) and demonstrate how it works with a straightforward example. We'll be using the same dataset as our previous discussion on logistic regression, which identifies whether or not a particular internet user clicked on an advertisement. If you want to learn more about the dataset, you can find it on [Kaggle](https://www.kaggle.com/datasets/gabrielsantello/advertisement-click-on-ad).
+
+Linear Discriminant Analysis (LDA) is a statistical technique widely used in machine learning and statistics to identify a linear combination of features that best separates two or more classes. It serves both as a dimensionality reduction tool and a classifier, making it particularly useful in applications like pattern recognition, face recognition, and other areas where accurate classification is essential.
+
+To demonstrate how LDA works, let's examine the scatter plot below, which shows $Daily$ $Internet$ $Usage$ on the x-axis and $Age$ on the y-axis for users who either clicked on the ad or didn't. From the plot, it appears that users with higher daily internet usage are less likely to have clicked on the ad. The relationship between higher daily internet usage and the likelihood of clicking an ad can vary. Users with high internet usage might be less likely to click ads due to factors like ad fatigue, familiarity with online content, or focus on specific tasks. However, this isn't a universal trend, and the impact can depend on the relevance and quality of the ads, as well as the user's interests. The relationship is complex and should be validated with data. However, the variable Age does not seem to effectively distinguish between users who clicked on the ad and those who didn't.
+
+Now, suppose we want to create a new axis that combines these two variables into a single one that maximizes the separation between the two types of consumers. How should we draw this new axis to best distinguish between those who clicked on the ad and those who didn’t?
 
 ```
 import numpy as np
@@ -24,7 +30,82 @@ sns.scatterplot(x='Daily Internet Usage', y='Age', hue='Clicked on Ad', data=df)
 
 ![scatter_plot](https://github.com/seyong2/seyong2.github.io/blob/master/assets/img/figures_lda/scatterplot.png?raw=true)
 
-This is when LDA comes in to solve the problem. It tries to reduce dimensionality of data in a way that separability among known categories is maximized. This is done by creating a new axis given information of variables according to two criteria. The first one is that the distance between means of data projected onto the new axis should be maximized. The other one is that the variation within each category (called scatter) has to be minimized. Then, if, in this example, we denote $d$ is the distance between the means of two categories after the data is projected onto the new axis, and $s_1^2$ and $s_0^2$ as the scatter of the group of the consumers who did not click on the ad and that of the people who did not, respectively, LDA maximizes $\frac{d^2}{s_1^2+s_2^2}$ to find the optimal axis. We are going to use the function **LinearDiscriminantAnalysis** from scikit-learn to this end.
+This is where Linear Discriminant Analysis (LDA) comes into play to address the problem. LDA aims to reduce the dimensionality of the data while maximizing the separability between known categories. It achieves this by creating a new axis based on two key criteria:
+
+1. **Maximizing the Distance Between Class Means**: LDA projects the data onto a new axis in such a way that the distance between the means of the different classes is maximized. This helps in distinguishing between the categories more effectively.
+
+2. **Minimizing the Within-Class Variance**: At the same time, LDA minimizes the variation within each category (known as scatter) when the data is projected onto the new axis. This reduces the overlap between categories, further enhancing separability.
+
+In this context, let's denote $d$ as the distance between the means of two categories after projection, and $s_1^2$ and $s_0^2$ as the scatter (variance) of the group that did not click on the ad and the group that did, respectively. LDA seeks to maximize the ratio $\frac{d^2}{s_1^2+s_2^2}$ to determine the optimal axis for projection.
+
+To understand how to solve a problem using Linear Discriminant Analysis (LDA), let's walk through the mathematical steps in more detail. 
+
+### 1. **Formulate the Problem**
+   - Suppose you have a dataset with \( n \) samples, each with \( d \) features. The data is labeled into two classes, \( C_1 \) and \( C_2 \). Let \( \mathbf{x}_i \) represent a feature vector (data point) and \( y_i \) be the corresponding class label.
+
+### 2. **Compute the Mean Vectors**
+   - First, calculate the mean vector for each class:
+     \[
+     \mathbf{\mu}_1 = \frac{1}{n_1} \sum_{\mathbf{x}_i \in C_1} \mathbf{x}_i, \quad \mathbf{\mu}_2 = \frac{1}{n_2} \sum_{\mathbf{x}_i \in C_2} \mathbf{x}_i
+     \]
+     where \( n_1 \) and \( n_2 \) are the number of samples in classes \( C_1 \) and \( C_2 \), respectively.
+
+### 3. **Compute the Scatter Matrices**
+
+   - **Within-Class Scatter Matrix ( \( \mathbf{S}_W \) )**:
+     \[
+     \mathbf{S}_W = \sum_{\mathbf{x}_i \in C_1} (\mathbf{x}_i - \mathbf{\mu}_1)(\mathbf{x}_i - \mathbf{\mu}_1)^T + \sum_{\mathbf{x}_i \in C_2} (\mathbf{x}_i - \mathbf{\mu}_2)(\mathbf{x}_i - \mathbf{\mu}_2)^T
+     \]
+     \( \mathbf{S}_W \) measures how much the samples within each class scatter around their mean.
+
+   - **Between-Class Scatter Matrix ( \( \mathbf{S}_B \) )**:
+     \[
+     \mathbf{S}_B = (\mathbf{\mu}_1 - \mathbf{\mu}_2)(\mathbf{\mu}_1 - \mathbf{\mu}_2)^T
+     \]
+     \( \mathbf{S}_B \) measures how much the means of the classes scatter with respect to each other.
+
+### 4. **Compute the Optimal Projection Vector ( \( \mathbf{w} \) )**
+   - The goal of LDA is to find a projection vector \( \mathbf{w} \) that maximizes the separability between the classes. This vector is found by solving the following optimization problem:
+     \[
+     \mathbf{w} = \mathbf{S}_W^{-1} (\mathbf{\mu}_1 - \mathbf{\mu}_2)
+     \]
+     Here, \( \mathbf{S}_W^{-1} \) is the inverse of the within-class scatter matrix, and \( \mathbf{\mu}_1 - \mathbf{\mu}_2 \) is the difference between the mean vectors of the two classes.
+
+### 5. **Project the Data onto the New Axis**
+   - Once the optimal \( \mathbf{w} \) is found, you project each data point onto this vector:
+     \[
+     z_i = \mathbf{w}^T \mathbf{x}_i
+     \]
+     This projection reduces the dimensionality of the data (in this case, to a single dimension) while maximizing the separation between the classes.
+
+### 6. **Classification**
+   - To classify a new data point \( \mathbf{x}_{\text{new}} \), compute the projection \( z_{\text{new}} = \mathbf{w}^T \mathbf{x}_{\text{new}} \).
+   - A common approach is to use a threshold \( \theta \) for classification:
+     \[
+     \text{If } z_{\text{new}} > \theta \text{, classify as } C_1 \text{; otherwise, classify as } C_2.
+     \]
+   - The threshold \( \theta \) can be chosen based on the midpoint between the projected means of the two classes:
+     \[
+     \theta = \frac{1}{2} \mathbf{w}^T (\mathbf{\mu}_1 + \mathbf{\mu}_2)
+     \]
+
+### 7. **Generalization to Multiple Classes**
+   - For more than two classes, LDA generalizes to finding a set of projection vectors (discriminants) that maximize class separability. The scatter matrices are defined similarly, but you solve a generalized eigenvalue problem:
+     \[
+     \mathbf{S}_W^{-1} \mathbf{S}_B \mathbf{w}_i = \lambda_i \mathbf{w}_i
+     \]
+     where \( \lambda_i \) are the eigenvalues and \( \mathbf{w}_i \) are the corresponding eigenvectors. The eigenvectors corresponding to the largest eigenvalues are chosen as the discriminants.
+
+### Summary of the Procedure:
+1. **Calculate the class mean vectors**.
+2. **Compute the within-class and between-class scatter matrices**.
+3. **Find the optimal projection vector** \( \mathbf{w} \) **by solving** \( \mathbf{w} = \mathbf{S}_W^{-1} (\mathbf{\mu}_1 - \mathbf{\mu}_2) \).
+4. **Project the data onto the new axis** using \( z_i = \mathbf{w}^T \mathbf{x}_i \).
+5. **Classify new data** based on the projection.
+
+This method ensures that the projected data is optimally separated, making LDA a powerful tool for classification problems where the classes are linearly separable.
+
+We will use the **LinearDiscriminantAnalysis** function from scikit-learn to implement this approach.
 
 ```
 clf = LinearDiscriminantAnalysis()
@@ -33,7 +114,7 @@ clf.fit(df.loc[:, ['Daily Internet Usage', 'Age']], df['Clicked on Ad'])
 print(clf.intercept_, clf.coef_)
 ```
 
-The classifier produces the intercept (11.41245521) and coefficients (-0.09551712, 0.1605331) with which we are allowed to compute the decision boundary; $\beta_0+\beta_1X_1+\beta_2X_2$=0, where $\beta_0$ is the intercept, $\beta_1$ and $\beta_2$ are the slope coefficients for $X_1$ (**Daily Internet Usage**) and $X_2$ (**Age**), respectively. As we want to plot the boundary, we have to solve for **Age** from which we obtain $X_2=-\frac{\beta_0}{\beta_2}-\frac{\beta_1}{\beta_2}X_1$. The figure below shows us the scatter plot that we saw above plus the decision boundary. According to the figure, although there are misclassifications, the new axis seems to separate well the two types of consumers.
+The classifier yields an intercept of 11.41 and coefficients of -0.0955 and 0.1605, which we can use to compute the decision boundary. The decision boundary is defined by the equation $\beta_0+\beta_1X_1+\beta_2X_2$=0, where $\beta_0$ is the intercept, and $\beta_1$ and $\beta_2$ are the coefficients corresponding to $X_1$ (**Daily Internet Usage**) and $X_2$ (**Age**), respectively. To plot the boundary, we solve for **Age** ($X_2$), yielding the equation $X_2=-\frac{\beta_0}{\beta_2}-\frac{\beta_1}{\beta_2}X_1$. The figure below shows the scatter plot, including the decision boundary. Despite some misclassifications, the plot indicates that the decision boundary effectively separates the two consumer groups.
 
 ```
 x = np.arange(100,280)
@@ -44,3 +125,5 @@ sns.lineplot(x=x, y=y)
 ```
 
 ![scatter_boundary](https://github.com/seyong2/seyong2.github.io/blob/master/assets/img/figures_lda/scatterplot_boundary.png?raw=true)
+
+The plot shows that the decision boundary effectively separates the two classes. However, it's important to be aware of some limitations when using Linear Discriminant Analysis (LDA). LDA assumes that the data follows a Gaussian distribution with identical covariance matrices for all classes. This assumption may not hold in many real-world scenarios. Additionally, LDA performs best when the classes are linearly separable or close to it. Another limitation is LDA's sensitivity to outliers, which can significantly distort the calculated means and covariance matrices, leading to less accurate predictions. I hope this post has helped you gain a clearer understanding of this statistical method.

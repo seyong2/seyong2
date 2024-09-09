@@ -57,3 +57,7 @@ $$ score = v_a^T \cdot tanh (W_a \cdot [s_k^T; h_{t-1}] $$
     - Concat: Similar to Bahdanau's method but with a slightly different formulation.
 
 Bahdanau attention is often considered more flexible but computationally more expensive. Luong attention is simpler and faster, particularly in the dot-product form.
+
+### References
+- [Sequence to Sequence (seq2seq) and Attention](https://lena-voita.github.io/nlp_course/seq2seq_and_attention.html#attention_intro)
+- [Attention for Neural Networks, Clearly Explained!!!](https://www.youtube.com/watch?v=PSs6nxngL6k&list=PLblh5JKOoLUIxGDQs4LFFD--41Vzf-ME1&index=19)

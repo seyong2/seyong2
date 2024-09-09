@@ -8,87 +8,112 @@ tags: [Artificial Intelligence, Data Science, Deep Learning, Transformer, Attent
 comments: true
 ---
 
-In this post, we will explore how **Transformer**, the basis of ChatGPT, works one step at a time with a simple example. Specifically, we'll focus on how a transformer neural network translates a simple Spanish sentence "*Te quiero*" into English, "*I love you*".
+In this post, we will explore how **Transformer**, the foundation of models like ChatGPT, operates step by step using a simple example. Specifically, we'll focus on how a transformer neural network translates the simple Spanish sentence "*Te quiero*" into English, "*I love you*".
 
-# 1. Word Embedding
+# Encoder
 
-We first need to convert the words into numbers as neural networks cannot receive words as input and a transformer is a type of neural network. For this purpose, we'll use word embedding, and the main idea of word embedding is to use a simple neural network that allows us to have a numerical representation of text that captures the semantic meaning of words. Suppose we have a vocabulary consisting of 5 tokens *<SOS>* (Start of Sentence), *te*, *y*, *quiero*, and *vas*. We want the network to produce two values for each token. In other words, the number of dimensions for word embeddings is set to 2. Then, the word embedding model will look like below. We use identity activation functions, meaning that the output values are the same as the input values. Then, starting from a one-hot matrix where each row has a value of 1 for each token and 0s for the other ones, as our input tokens are *<SOS>* (Start of Sentence), *te*, and *quiero*, the resulting word embedding vector will have a matrix with a shape of (3 $\times# 2).
+## 1. Word Embedding
+
+To begin, we need to convert words into numbers, as neural networks, including transformers, require numerical input. For this, we'll use word embeddings. The core idea behind word embeddings is to provide a numerical representation of text that captures the semantic meaning of words.
+
+magine we have a vocabulary consisting of five tokens: *<SOS>* (Start of Sentence), *te*, *y*, *quiero*, and *vas*. Suppose we want the network to produce two values for each token, meaning the word embeddings will be in a 2-dimensional space. The word embedding model would then look like this: starting with a one-hot matrix where each row has a value of 1 for its corresponding token and 0 for others. Given that our input tokens are *<SOS>* (Start of Sentence), *te*, and *quiero*, the resulting word embedding vector will be a matrix with a shape of (3 $\times# 2).
 
 ![word_emb](https://github.com/user-attachments/assets/76a93ed3-a74b-4770-8d18-dcefd2df45e8)
 
-$$ A * W_{emb} = {\left\lbrack \matrix{1 & 0 & 0 & 0 & 0 \cr 0 & 1 & 0 & 0 & 0 \cr 0 & 0 & 0 & 1 & 0} \right\rbrack} * \left\lbrack \matrix{w_{00} & w_{01} \cr w_{10} & w_{11} \cr w_{20} & w_{21} \cr w_{30} & w_{31} \cr w_{40} & w_{41} \cr w_{50} & w_{51}} \right\rbrack = \left\lbrack \matrix{w_{00} & w_{01} \cr w_{10} & w_{11} \cr w_{40} & w_{41}} \right\rbrack $$
+The embedding operation can be represented mathematically as:
 
-# 2. Position Encoding
+$$ IP * W_{emb} = {\left\lbrack \matrix{1 & 0 & 0 & 0 & 0 \cr 0 & 1 & 0 & 0 & 0 \cr 0 & 0 & 0 & 1 & 0} \right\rbrack} * \left\lbrack \matrix{w_{00} & w_{01} \cr w_{10} & w_{11} \cr w_{20} & w_{21} \cr w_{30} & w_{31} \cr w_{40} & w_{41} \cr w_{50} & w_{51}} \right\rbrack = \left\lbrack \matrix{w_{00} & w_{01} \cr w_{10} & w_{11} \cr w_{40} & w_{41}} \right\rbrack $$
 
-The next step is to add a set of numbers that correspond to word order to the embedding values for each token. As we do not use sequential neural networks like RNNs or LSTMs, the word embedding vectors do not contain any information about the order. However, there are many situations where the order of the words is very important. Those numbers that assign orders come from a sequence of alternating sine and cosine functions. More specifically, for each position $p$ of token in the input, and each word embedding dimension $2i$ (even-indexed) and $2i+1$ (odd-indexed) in the encoding vector...
+## 2. Position Encoding
+
+TNext, we need to encode the order of the words, as transformers don't inherently understand word order (unlike sequential models like RNNs or LSTMs). Positional encoding is added to the embedding vectors to incorporate word order information. These encodings are generated using a sequence of alternating sine and cosine functions.
+
+For each position $p$ of a token in the input and each embedding dimension $2i$ (even-indexed) and $2i+1$ (odd-indexed), the positional encoding is calculated as:
 
 $$PE(p, 2i)=sin(\frac{p}{10000^{\frac{2i}{d}}})$$
 
 $$PE(p, 2i+1)=cos(\frac{p}{10000^{\frac{2i}{d}}})$$
 
-where $d$ is the output embedding space and in this example, it's equal to 2.
+where $d$ is the dimension of the word embedding (in this case, 2).
 
-Therefore, the position encoding matrix has a shape of (3 $\times$ 2) and it's equal to 
+Thus, the positional encoding matrix will have a shape of (3 × 2) and might look like:
 
-$$ PE= \left\lbrack \matrix{sin(\frac{0}{1000^{2\times0/2}}) & cos(\frac{0}{1000^{2\times0/2}}) \cr sin(\frac{21}{1000^{2\times0/2}}) & cos(\frac{1}{1000^{2\times0/2}}) \cr sin(\frac{2}{1000^{2\times0/2}}) & cos(\frac{2}{1000^{2\times0/2}})} \right\rbrack = \left\lbrack \matrix{0 & 1 \cr 0.84 & 0.54 \cr 0.91 & -0.42} \right\rbrack $$
+$$ PE_{enc} = \left\lbrack \matrix{sin(\frac{0}{1000^{2\times0/2}}) & cos(\frac{0}{1000^{2\times0/2}}) \cr sin(\frac{21}{1000^{2\times0/2}}) & cos(\frac{1}{1000^{2\times0/2}}) \cr sin(\frac{2}{1000^{2\times0/2}}) & cos(\frac{2}{1000^{2\times0/2}})} \right\rbrack = \left\lbrack \matrix{0 & 1 \cr 0.84 & 0.54 \cr 0.91 & -0.42} \right\rbrack $$
 
-The sine and cosine functions get wider for larger embedding positions. Then, we do the element-wise addition, $A*W_{emb}+PE$, to get each token's word embeddings plus positional encodings.
+We then perform element-wise addition of the word embeddings and the positional encodings to form a new representation.
 
-# 3. Self-Attention
+## 3. Self-Attention
 
-Self-attention is a mechanism in neural networks that allows us to see how tokens interact with each other. Each token looks at other tokens in the input sentence with an attention mechanism, gathers context, and updates the previous representation of self. This concept is implemented with query-key-value attention.
+Self-attention is a mechanism that helps the model understand how different tokens in a sentence relate to each other. Each token "attends" to all other tokens in the sentence, allowing the model to gather context and update its understanding of each word.
 
-- The query is used when a token looks at others. It's seeking the information to understand itself better. We multiply the encoded values by the transposed query weights matrix ($W_Q^T$) whose shape is 2 $\times$ 2. Let's call the resulting 3 $\times$ 2, $Q$.
+This is implemented using a query-key-value mechanism:
 
-- The key is responding to a query's request. It's used to compute attention weights. As before, we do matrix multiplication between the encoded values and the transpose of key weights matrix ($W_K^T$) to get $K$.
+- **Query**: Represents the token seeking information. We obtain the query by multiplying the encoded values by the transposed query weights matrix ($W_Q^T$), producing a matrix $Q$ of shape (3 × 2).
 
-- The value is used to compute attention output: it gives information to the tokens which "say" they need it. To get $V$, we multiply the encoded values by $W_V^T$, the transposed value weights matrix. 
+- **Key**: Represents the token being "queried." The key is calculated by multiplying the encoded values by the transposed key weights matrix ($W_K^T$), producing matrix $K$.
 
-To compute the similarities between the words, that is, between the query and the keys, we use dot product, $Q * K^T$. The words that are highly associated with each other will have large values. Then, as this dot product produces unscaled similarity scores, we divide $Q * K^T$ by $\sqrt{d_k}$ where $d_k$ is the dimension of $K$ to get scaled similarities. Next, we apply the softmax function to each row of the matrix of scaled similarity scores so that the values of each row sum up to 1. We can think of these values as a way to determine what percentage of each input word we should use to encode itself and the other words. Finally, we need to calculate attention by multiplying these percentages by $V$. The self-attention score matrix will have a (3 $\times$ 2) shape.
+- **Value**: Represents the information provided by each token. We calculate the value by multiplying the encoded values by the transposed value weights matrix ($W_V^T$), producing matrix $V$.
 
-In this example, we are using only a self-attention cell, but we can use multiple self-attention cells with their own sets of weights in order to capture better how words are related in complicated sentences (Multi-Head Attention).
+$$ Attention(Q,K,V)=SoftMax(\frac{QK^T}{\sqrt{d_k}})V $$
+
+The similarity between words is computed using the dot product of $Q$ and $K^T$. The resulting similarity scores are scaled by dividing by $\sqrt{d_k}$ (where $d_k$ is the dimension of $K$). We then apply a softmax function to these scaled scores to produce attention weights. Finally, the attention output is calculated by multiplying these weights by $V$, resulting in a self-attention matrix with a shape of (3 × 2).
+
+In practice, multiple self-attention heads are used (Multi-Head Attention) to capture different types of relationships within the sentence.
 
 # 4. Residual Connection
 
-We take the position encoded values and add them to the self-attention values. These bypasses are called residual connections, and they make it easier to train complex neural networks by allowing the self-attention layer to establish relationships among the input words without having to also preserve the word embedding and position encoding informaiton. As both matrices are of the same shape, the resulting enocded values will also have a shape of (3 $\times$ 2).
+To ensure that the model doesn't lose information from the word embeddings and positional encodings, we use residual connections. These connections add the original encoded values to the self-attention outputs. Since both matrices have the same shape, the resulting encoded values will also have a shape of (3 $\times$ 2).
 
-Now that we've encoded the Spanish input phrase, it's time to decode it to English, "*I love you*".
+Now that we've encoded the Spanish input phrase, it's time to decode it into the English phrase, "*I love you*".
 
-# 5. Word Embedding
+# Decoder
 
-Just like the encoder, the decoder starts with word embedding for the English vocabulary and let's suppose that the vocabulary consists of 6 words, *<SOS>* (to initialize the decoder), *I*, *love*, *you*, *and*, and *<EOS>* (to stop generating output). To make training go faster, we implement teacher forcing by initializing the decoders with known output values during training. Then, we initialize the first decoder with *<SOS>* token, the second decoder with *I*, the third one with *love*, and the final decoder with *you* which will output *<EOS>* token. Thus, our decoder has 4 tokens and the resulting word embedding vector is a (4 $\times$ 2) matrix.
+## 1. Word Embedding
 
-matrix visual
+Similar to the encoder, the decoder starts by embedding the English tokens. Let's assume the vocabulary consists of six tokens: *<SOS>* (to initialize the decoder), *I*, *love*, *you*, *and*, and *<EOS>* (to stop generating output). During training, we use teacher forcing, initializing the decoder with known output values. For instance, we might initialize the first decoder input with *<SOS>*, the second with *i*, the third with *love*, and the final one with *you*. The word embedding vector for the decoder would then be a matrix of shape (4 $\times$ 2).
 
-# 6. Position Encoding
+![word_emb_decoder](https://github.com/user-attachments/assets/06b565fd-7ecc-4f0b-8243-5711f3b3ee29)
 
-Just like before we did in the encoder, we add the position encoding to the word embedding matrix.
+$$ OP * W_{emb} = {\left\lbrack \matrix{1 & 0 & 0 & 0 & 0 & 0 \cr 0 & 1 & 0 & 0 & 0 & 0 \cr 0 & 0 & 1 & 0 & 0 & 0 \cr 0 & 0 & 0 & 1 & 0 & 0} \right\rbrack} * \left\lbrack \matrix{w_{00} & w_{01} \cr w_{10} & w_{11} \cr w_{20} & w_{21} \cr w_{30} & w_{31} \cr w_{40} & w_{41} \cr w_{50} & w_{51} \cr w_{60} & w_{61}} \right\rbrack = \left\lbrack \matrix{w_{00} & w_{01} \cr w_{10} & w_{11} \cr w_{20} & w_{21} \cr w_{30} & w_{31}} \right\rbrack $$
 
-# 7. Masked Self-Attention
+## 2. Position Encoding
 
-Calculating self-attention scores in the decoder starts out exactly like it does in the encoder. In the decoder, self-attention is a bit different from the one in the encoder. While the encoder receives all tokens at once and the tokens can look at all tokens in the input sentence, in the decoder, we generate one token at a time: during generation, we don't know which tokens we'll generate in future. For example, at the start of decoding, we only use the similarity between *<SOS>* and itself because we don't want tokens to cheat and peak at what comes next when calculating self-attention.
+As in the encoder, we add positional encodings to the decoder's word embeddings.
 
-To forbid the decoder to look ahead, the model uses masked self-attention: future tokens are masked out. The way that transformers keep track of what values should and shouldn't be used to compute self-attention for each token is to take the scaled similarity score matrix and add a matrix to it. The mask matrix adds 0s to values we want to include in the attention calculations and -infinity to any value that we need to ignore. Then, when applied to the softmax function, the -infinity will have 0, and no influence on the encoding of the words that come before.
+$$ PE_{dec} = \left\lbrack \matrix{sin(\frac{0}{1000^{2\times0/2}}) & cos(\frac{0}{1000^{2\times0/2}}) \cr sin(\frac{21}{1000^{2\times0/2}}) & cos(\frac{1}{1000^{2\times0/2}}) \cr sin(\frac{2}{1000^{2\times0/2}}) & cos(\frac{2}{1000^{2\times0/2}}) \cr sin(\frac{3}{1000^{2\times0/2}}) & cos(\frac{3}{1000^{2\times0/2}}} \right\rbrack = \left\lbrack \matrix{0 & 1 \cr 0.84 & 0.54 \cr 0.91 & -0.42 \cr 0.14 & -0.99} \right\rbrack $$
 
-# 8. Residual Connection
+## 3. Masked Self-Attention
 
-We take the self-attention scores and add the original word and position encodings to each token.
+The decoder's self-attention is slightly different from that of the encoder. While the encoder can access all tokens at once, the decoder generates one token at a time. To prevent the decoder from "seeing" future tokens (which it shouldn't know yet), we use masked self-attention. This masking ensures that the decoder only attends to previous tokens and not future ones.
 
-# 9. Encoder-Decoder Attention
+We implement this by adding a mask matrix to the scaled similarity scores. The mask assigns 0 to values we want to include in the attention calculation and -infinity to values we need to ignore. When passed through the softmax function, the -infinity values result in zero probability, effectively ignoring those future tokens.
 
-The calculation is the same as calculating standard self-attention but the $V$ and $K$ matrices are created with the Encoder's output matrix and the $Q$ matrix is created with the values from the Decoder.
+$$ Attention(Q,K,V)=SoftMax(\frac{QK^T}{\sqrt{d_k}}+M)V $$
 
-# 10. Residual Connection
+where $M$ is the mask matrix.
 
-When obtaining the encoder-decoder attention scores, we add them to the next set of residual connections.
+$$M = \left\lbrack \matrix{0 & -inf & -inf & -inf \cr 0 & 0 & -inf & -inf \cr 0 & 0 & 0 & -inf \cr 0 & 0 & 0 & 0} \right\rbrack$$
 
-# 11. Fully-Connected Layer
 
-It has two inputs for the two values we have computed for each token and six outputs, one for each token in the output vocabulary. Then the fully-connected layer weights matrix has (2 $\times$ 5) shape. When multiplying the new decoder values and the weights, we add bias terms to each column.
+## 4. Residual Connection
+
+Again, we add the original word embeddings and positional encodings to the self-attention outputs.
+
+## 5. Encoder-Decoder Attention
+
+This step is similar to self-attention but involves both the encoder's output and the decoder's current state. The encoder's output provides the $V$ and $K$ matrices, while the decoder's output provides the $Q$ matrix.
+
+## 6. Residual Connection
+
+The encoder-decoder attention scores are combined with residual connections before being passed to the next layer.
+
+## 7. Fully-Connected Layer
+
+The output from the previous step is passed through a fully connected layer. Given our example, the layer has two input dimensions (from the attention outputs) and six output dimensions (corresponding to the tokens in the output vocabulary). The weights matrix has a shape of (2 $\times$ 6), and bias terms are added during this step.
 
 # 12. SoftMax
 
-We run the output from the fully-connected layer through a softmax function from which we get the prediction for the next word.
+Finally, the fully connected layer's output is passed through a softmax function, which generates the probability distribution over the vocabulary for the next word in the sequence.
 
 ### References
  

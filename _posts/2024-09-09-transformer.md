@@ -111,7 +111,7 @@ The encoder-decoder attention scores are combined with residual connections befo
 
 The output from the previous step is passed through a fully connected layer. Given our example, the layer has two input dimensions (from the attention outputs) and six output dimensions (corresponding to the tokens in the output vocabulary). The weights matrix has a shape of (2 $\times$ 6), and bias terms are added during this step.
 
-# 12. SoftMax
+## 8. SoftMax
 
 Finally, the fully connected layer's output is passed through a softmax function, which generates the probability distribution over the vocabulary for the next word in the sequence.
 
